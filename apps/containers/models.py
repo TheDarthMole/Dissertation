@@ -14,7 +14,7 @@ class Containers(models.Model):
     # JSON string of the exposed ports, e.g. ["25565:25565", "6000:6000"]. Used for the -p flag
     exposed_ports = models.CharField(max_length=150)
     # The default -it flags
-    iteractive_flag = models.BooleanField(defaut=False)
+    interactive_flag = models.BooleanField(defaut=False)
     tty_flag = models.BooleanField(defaut=False)
-    # By default we want the container to remove itself on close
+    # By default, we want the container to remove itself on close
     rm_flag = models.BooleanField(defaut=True)
