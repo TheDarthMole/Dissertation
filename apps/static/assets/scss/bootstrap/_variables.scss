@@ -209,7 +209,7 @@ $grid-breakpoints: (
 
 // Grid containers
 //
-// Define the maximum width of `.container` for different screen sizes.
+// Define the maximum width of `.containers` for different screen sizes.
 
 $container-max-widths: (
   sm: 540px,
@@ -757,7 +757,7 @@ $navbar-dark-brand-hover-color:           $navbar-dark-active-color !default;
 
 // Dropdowns
 //
-// Dropdown menu container and contents.
+// Dropdown menu containers and contents.
 
 $dropdown-min-width:                10rem !default;
 $dropdown-padding-y:                .5rem !default;

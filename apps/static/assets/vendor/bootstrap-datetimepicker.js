@@ -509,7 +509,7 @@
         }
 
         if (parent.length === 0) {
-          throw new Error('datetimepicker component should be placed within a non-static positioned container');
+          throw new Error('datetimepicker component should be placed within a non-static positioned containers');
         }
 
         widget.css({

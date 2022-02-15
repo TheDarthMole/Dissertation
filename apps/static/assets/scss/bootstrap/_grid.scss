@@ -1,15 +1,15 @@
-// Container widths
+// containers widths
 //
-// Set the container width, and override it for fixed navbars in media queries.
+// Set the containers width, and override it for fixed navbars in media queries.
 
 @if $enable-grid-classes {
-  // Single container class with breakpoint max-widths
+  // Single containers class with breakpoint max-widths
   .container {
     @include make-container();
     @include make-container-max-widths();
   }
 
-  // 100% wide container at all breakpoints
+  // 100% wide containers at all breakpoints
   .container-fluid {
     @include make-container();
   }

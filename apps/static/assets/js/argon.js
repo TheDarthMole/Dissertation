@@ -984,7 +984,7 @@ var noUiSlider = (function() {
 
 	// Variables
 
-	// var $sliderContainer = $('.input-slider-container'),
+	// var $sliderContainer = $('.input-slider-containers'),
 	// 		$slider = $('.input-slider'),
 	// 		$sliderId = $slider.attr('id'),
 	// 		$sliderMinValue = $slider.data('range-value-min');
@@ -1008,8 +1008,8 @@ var noUiSlider = (function() {
 
 
 
-	if ($(".input-slider-container")[0]) {
-			$('.input-slider-container').each(function() {
+	if ($(".input-slider-containers")[0]) {
+			$('.input-slider-containers').each(function() {
 
 					var slider = $(this).find('.input-slider');
 					var sliderId = slider.attr('id');
