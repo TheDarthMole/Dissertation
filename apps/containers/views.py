@@ -11,6 +11,5 @@ from django.urls import reverse
 @login_required(login_url="/login/")
 def container(request):
     context = {'segment': 'containers'}
-    print("Triggered!!!")
     html_template = loader.get_template('containers/container.html')
     return HttpResponse(html_template.render(context, request))

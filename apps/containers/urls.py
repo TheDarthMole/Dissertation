@@ -12,6 +12,6 @@ urlpatterns = [
     path('containers', views.container, name='containers'),
 
     # Matches any html file
-    # re_path(r'^.*\.*', views.container, name='containers'),
+    # re_path(r'^.*\.*', views.containers, name='containers'),
 
 ]
