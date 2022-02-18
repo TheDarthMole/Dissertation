@@ -60,7 +60,7 @@ class Container(models.Model):
         return self.container_image.exposed_ports
 
     # The person who ran the containers
-    owner_id = models.CharField(max_length=30)
+    owner_id = models.ForeignKey(User, on_delete=models.CASCADE)
     # The image that the container uses
     container_image = models.ForeignKey(Image, on_delete=models.CASCADE)
     # The container ID once it has been created, 12 is the size of a normal containers
