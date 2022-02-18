@@ -6,10 +6,13 @@ from django import template
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
+from apps.containers.models import Container, Image
 from django.urls import reverse
 
 @login_required(login_url="/login/")
 def container(request):
-    context = {'segment': 'containers'}
-    html_template = loader.get_template('containers/container.html')
+    context = {'segment': 'containers',
+               'containers': Container.objects.all(),
+               'images': Image.objects.all()}
+    html_template = loader.get_template('containers/containers.html')
     return HttpResponse(html_template.render(context, request))
