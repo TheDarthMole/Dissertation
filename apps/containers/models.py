@@ -1,18 +1,23 @@
 from django.db import models
 from django.contrib.auth.models import User
-
-
+import datetime
 
 # Create your models here.
 
 class Image(models.Model):
+
+    def __str__(self):
+        return self.image_name
+
     image_name = models.CharField(max_length=32)
     # The image to pull from
     image = models.CharField(max_length=32)
     # The version of the image, latest is default for docker
     tag = models.CharField(max_length=16, null=True, default='latest')
     # JSON string of the exposed ports, e.g. ["25565:25565", "6000:6000"]. Used for the -p flag
-    exposed_ports = models.CharField(max_length=150)
+    exposed_ports = models.CharField(max_length=150, default="{}")
+    # A JSON string of all environment variables to be used in the containers
+    environment = models.CharField(max_length=300, default="{}")
     # Alive duration of the containers in seconds. Default is half an hour
     duration = models.IntegerField(default=1800)
     # The default -it flags
@@ -25,15 +30,17 @@ class Image(models.Model):
 class Container(models.Model):
 
     def __str__(self):
-        return self.container_image.name
+        return self.container_image.image_name
 
     @property
     def container_owner(self):
-        return User.objects.get(pk=self.owner_id)
+        return self.owner_id.username
 
     @property
-    def duration(self):
-        return self.container_image.duraton
+    def duration(self): # Show the remaining duration in seconds
+        now = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc)
+        diff = (now - self.start_time).seconds
+        return self.container_image.duration - diff
 
     @property
     def image_name(self):
@@ -66,6 +73,5 @@ class Container(models.Model):
     # The container ID once it has been created, 12 is the size of a normal containers
     container_id = models.CharField(max_length=12, blank=True, null=True)
     # When the container was created
-    start_time = models.DateTimeField().auto_now_add
-
+    start_time = models.DateTimeField(default=datetime.datetime.utcnow, blank=True )
 

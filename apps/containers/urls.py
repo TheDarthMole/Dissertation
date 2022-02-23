@@ -10,6 +10,7 @@ urlpatterns = [
 
     # The containers page
     path('containers', views.container, name='containers'),
+    path('containers/start', views.start) # , name='start_container'
 
     # Matches any html file
     # re_path(r'^.*\.*', views.containers, name='containers'),

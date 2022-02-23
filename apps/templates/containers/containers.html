@@ -35,7 +35,7 @@
         <div class="card bg-default shadow">
           <!-- Card header -->
           <div class="card-header bg-transparent border-0">
-            <h3 class="text-white mb-0">Avaliable containers</h3>
+            <h3 class="text-white mb-0">Started containers</h3>
           </div>
           <!-- Dark table -->
           <!-- Card footer -->
@@ -44,8 +44,8 @@
               <thead class="thead-dark">
                 <tr>
                   <th scope="col" class="sort" data-sort="name">Container Name</th>
-                  <th scope="col" class="sort" data-sort="budget">Duration Remaining</th>
-                  <th scope="col" class="sort" data-sort="status">Status</th>
+                  <th scope="col" class="sort" data-sort="budget">Rename me</th>
+                  <th scope="col" class="sort" data-sort="status">Duration Remaining</th>
                   <th scope="col">Users</th>
                   <th scope="col" class="sort" data-sort="completion">Completion</th>
                   <th scope="col"></th>
@@ -62,7 +62,7 @@
                         <img alt="Image placeholder" src="/static/assets/img/theme/bootstrap.jpg">
                       </a>
                       <div class="media-body">
-                        <span class="name mb-0 text-sm">{{ container.name }}</span>
+                        <span class="name mb-0 text-sm">{{ container.image_name }}</span>
                       </div>
                     </div>
                   </th>
@@ -165,6 +165,7 @@
                   <th scope="col">Users</th>
                   <th scope="col" class="sort" data-sort="completion">Completion</th>
                   <th scope="col"></th>
+                  <th scope="col"></th>
                 </tr>
               </thead>
               <tbody class="list">
@@ -216,6 +217,12 @@
                         </div>
                       </div>
                     </div>
+                  </td>
+                  <td class="text-right">
+                    <form method="post" action="/containers/start"> {% csrf_token %}
+                      <input type="hidden" id="imageID" name="imageID" value="1">
+                      <button class="btn btn-sm btn-primary" type="submit"> Start Challenge!</button>
+                    </form>
                   </td>
                   <td class="text-right">
                     <div class="dropdown">
