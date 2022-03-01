@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 import datetime
 
+
 # Create your models here.
 
 class Image(models.Model):
@@ -37,7 +38,7 @@ class Container(models.Model):
         return self.owner_id.username
 
     @property
-    def duration(self): # Show the remaining duration in seconds
+    def duration(self):  # Show the remaining duration in seconds
         now = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc)
         diff = (now - self.start_time).seconds
         return self.container_image.duration - diff
@@ -73,5 +74,4 @@ class Container(models.Model):
     # The container ID once it has been created, 12 is the size of a normal containers
     container_id = models.CharField(max_length=12, blank=True, null=True)
     # When the container was created
-    start_time = models.DateTimeField(default=datetime.datetime.utcnow, blank=True )
-
+    start_time = models.DateTimeField(default=datetime.datetime.utcnow, blank=True)

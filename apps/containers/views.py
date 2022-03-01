@@ -62,3 +62,7 @@ def start(request):
             print("Oopa, something happened!")
 
     return redirect(reverse("containers"))
+
+@login_required(login_url="/login/")
+def stop(request):
+    pass
