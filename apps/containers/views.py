@@ -1,15 +1,15 @@
-from django.shortcuts import render
-
 # Create your views here.
 
-from django import template
+import docker
+import json
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseRedirect
-from django.template import loader
-from apps.containers.models import Container, Image
-from django.urls import reverse
+from django.http import HttpResponse
 from django.shortcuts import redirect
-import docker, json
+from django.template import loader
+from django.urls import reverse
+
+from apps.containers.models import Container, Image
+
 
 @login_required(login_url="/login/")
 def container(request):
@@ -19,9 +19,9 @@ def container(request):
     html_template = loader.get_template('containers/containers.html')
     return HttpResponse(html_template.render(context, request))
 
+
 @login_required(login_url="/login/")
 def start(request):
-    print("Rah")
     if request.method == 'POST':
         context = {
 
@@ -48,10 +48,10 @@ def start(request):
                       'auto_remove': image_obj.rm_flag,
                       'tty': image_obj.tty_flag,
                       'stdin_open': image_obj.interactive_flag,
-                      'ports':port_mappings,
+                      'ports': port_mappings,
                       'environment': environment
-            }
-            if not image_obj.rm_flag: # Mutually exclusive events
+                      }
+            if not image_obj.rm_flag:  # Mutually exclusive events
                 kwargs['restart_policy'] = {"Name": "always"}
 
             client.containers.run(image_obj.image, **kwargs)
@@ -62,6 +62,7 @@ def start(request):
             print("Oopa, something happened!")
 
     return redirect(reverse("containers"))
+
 
 @login_required(login_url="/login/")
 def stop(request):
