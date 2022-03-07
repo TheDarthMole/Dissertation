@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse
 from django.shortcuts import redirect, render
-from apps.learn.models import Lesson
+from apps.learn.models import Lesson, ExploitType
 
 
 # Create your views here.
@@ -11,7 +11,9 @@ from apps.learn.models import Lesson
 
 @login_required(login_url="/login/")
 def learn(request):
-    context = {}
+    context = {'exploit_types': ExploitType.objects.all()}
+    for x in ExploitType.objects.all():
+        print(x)
     html_template = loader.get_template('learn/lessons.html')
     return HttpResponse(html_template.render(context, request))
 

@@ -18,9 +18,15 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {% if 'index' in segment %} active {% endif %}" href="{% url 'containers' %}">
+            <a class="nav-link {% if 'containers' in segment %} active {% endif %}" href="{% url 'containers' %}">
               <i class="ni ni-app text-primary"></i>
               <span class="nav-link-text">Containers</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if 'learn' in segment %} active {% endif %}" href="{% url 'learn' %}">
+              <i class="ni ni-app text-primary"></i>
+              <span class="nav-link-text">Learn</span>
             </a>
           </li>
           <li class="nav-item">
