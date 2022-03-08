@@ -1,5 +1,3 @@
-# Create your views here.
-
 import docker
 import json
 from django.contrib.auth.decorators import login_required
