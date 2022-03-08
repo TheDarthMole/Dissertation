@@ -11,5 +11,5 @@ class ContainerAdmin(admin.ModelAdmin):
 
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):
-    list_display = ['image_name', 'image', 'tag', 'exposed_ports', 'environment', 'duration', 'interactive_flag',
+    list_display = ['image_name', 'image', 'exploit_type', 'tag', 'exposed_ports', 'environment', 'duration', 'interactive_flag',
                     'tty_flag', 'rm_flag']

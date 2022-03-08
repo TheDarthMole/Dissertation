@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from apps.learn.models import ExploitType
 import datetime
 
 
@@ -26,6 +27,11 @@ class Image(models.Model):
     tty_flag = models.BooleanField(default=False)
     # By default, we want the containers to remove itself on close
     rm_flag = models.BooleanField(default=True)
+    # Exploit type of the container
+    exploit_type = models.ForeignKey(ExploitType,
+                                     related_name='exploit_type',
+                                     on_delete=models.CASCADE,
+                                     null=True)
 
 
 class Container(models.Model):
