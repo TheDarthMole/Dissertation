@@ -15,19 +15,24 @@ class LessonAdmin(admin.ModelAdmin):
 
 @admin.register(Content)
 class ContentAdmin(admin.ModelAdmin):
-    list_display = ['object_id', 'lesson', 'content_type', 'item']
+    list_display = ['object_id', 'lesson', 'content_type', 'item', 'order_number']
 
 
 @admin.register(Text)
 class TextAdmin(admin.ModelAdmin):
-    list_display = ['text_content']
+    list_display = ['title', 'text_content']
 
 
 @admin.register(File)
 class FileAdmin(admin.ModelAdmin):
-    list_display = ['file_content']
+    list_display = ['title', 'file_content']
 
 
 @admin.register(Video)
 class VideoAdmin(admin.ModelAdmin):
-    list_display = ['video_content']
+    list_display = ['title', 'video_content']
+
+
+@admin.register(Image)
+class ImageAdmin(admin.ModelAdmin):
+    list_display = ['title', 'image_content']

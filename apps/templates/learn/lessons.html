@@ -31,7 +31,7 @@
 
             {% for exploit in exploit_types %}
 
-                <div class="card shadow">
+                <div id="{{ exploit.slug }}" class="card shadow">
                     <div class="card-header bg-transparent">
                         <h3 class="mb-0">{{ exploit.title }}</h3>
                     </div>
@@ -49,8 +49,8 @@
 
                                                 <div class="row">
                                                     <div class="col">
-                                                        <h5 class="card-title text-uppercase text-muted mb-0">{{ lesson.title }}</h5>
-                                                        <span class="h2 font-weight-bold mb-0">{{ lesson.difficulty_str }}</span>
+                                                        <span class="h2 font-weight-bold mb-0">{{ lesson.title }}</span>
+                                                        <h5 class="card-title text-uppercase text-muted mb-0">{{ lesson.difficulty_str }}</h5>
                                                         <p>{{ lesson.overview }}</p>
                                                     </div>
 

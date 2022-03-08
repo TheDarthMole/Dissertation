@@ -1,3 +1,5 @@
+import os.path
+
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
@@ -145,12 +147,58 @@ class Text(ItemBase):
 
 
 class File(ItemBase):
-    file_content = models.FileField(upload_to='files')
+    file_content = models.FileField(upload_to='apps/static/files/lessons')
+
+    @property
+    def get_absolute_url(self):
+        # Basically return '/static/files/lessons/[file name]'
+        # By default the self.file_content returns '/apps/static/files/lessons/...'
+        return "/" + "/".join(self.file_content.__str__().split("/")[1:])
+
+    @property
+    def file_name(self):
+        return self.file_content.__str__().split("/")[-1]
+
+    @property
+    def file_size(self):
+        print(self.file_content.__str__())
+        return os.path.getsize(self.file_content.__str__())
 
 
 class Image(ItemBase):
-    image_content = models.FileField(upload_to='images')
+    image_content = models.ImageField(upload_to='apps/static/images/lessons')
+
+    @property
+    def get_absolute_url(self):
+        # Basically return '/static/images/lessons/[file name]'
+        # By default the self.image_contents returns '/apps/static/images/lessons/...'
+        return "/" + "/".join(self.image_content.__str__().split("/")[1:])
 
 
 class Video(ItemBase):
     video_content = models.URLField()
+
+    @property
+    def youtube_embed(self):
+        url_split = self.video_content.lstrip("https://").lstrip("http://").split("/")
+        domain = url_split[0]
+        arguments = url_split[1]
+
+        if 'youtube.com' in domain.lower():
+            video_id = arguments.split("?v=")[1]
+            return f"https://www.youtube.com/embed/{video_id}"
+
+        elif 'youtu.be' in domain.lower():
+            return f"https://www.youtube.com/embed/{arguments}"
+
+        raise NotImplemented
+
+    @property
+    def get_iframe(self):
+        url_split = self.video_content.lstrip("https://").lstrip("http://").split("/")
+        domain = url_split[0]
+        if domain in ('youtu.be', 'youtube.com'):
+            return self.youtube_embed
+
+        # More content types to come?
+        raise NotImplemented
