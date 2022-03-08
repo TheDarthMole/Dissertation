@@ -35,7 +35,7 @@
         <div class="card bg-default shadow">
           <!-- Card header -->
           <div class="card-header bg-transparent border-0">
-            <h3 class="text-white mb-0">Started containers</h3>
+            <h3 class="text-white mb-0">Started Challenges</h3>
           </div>
           <!-- Dark table -->
           <!-- Card footer -->
@@ -43,7 +43,7 @@
             <table class="table align-items-center table-dark table-flush">
               <thead class="thead-dark">
                 <tr>
-                  <th scope="col" class="sort" data-sort="name">Container Name</th>
+                  <th scope="col" class="sort" data-sort="name">Challenge Name</th>
                   <th scope="col" class="sort" data-sort="budget">Rename me</th>
                   <th scope="col" class="sort" data-sort="status">Duration Remaining</th>
                   <th scope="col">Users</th>
@@ -151,7 +151,7 @@
         <div class="card bg-default shadow">
           <!-- Card header -->
           <div class="card-header bg-transparent border-0">
-            <h3 class="text-white mb-0">Avaliable containers</h3>
+            <h3 class="text-white mb-0">Available Challenges</h3>
           </div>
           <!-- Dark table -->
           <!-- Card footer -->
@@ -219,7 +219,7 @@
                     </div>
                   </td>
                   <td class="text-right">
-                    <form method="post" action="/containers/start"> {% csrf_token %}
+                    <form method="post" action="{% url 'challenges_start' %}"> {% csrf_token %}
                       <input type="hidden" id="imageID" name="imageID" value="1">
                       <button class="btn btn-sm btn-primary" type="submit"> Start Challenge!</button>
                     </form>
