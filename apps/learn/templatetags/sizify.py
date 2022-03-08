@@ -1,3 +1,4 @@
+# Code snippet from https://djangosnippets.org/snippets/1866/
 from django import template
 
 register = template.Library()
