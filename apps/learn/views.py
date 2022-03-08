@@ -8,9 +8,6 @@ from apps.learn.models import Lesson, ExploitType
 from django.views.generic import ListView, DetailView
 
 
-# Create your views here.
-
-
 @login_required(login_url="/login/")
 def learn(request):
     context = {'segment': 'learn',

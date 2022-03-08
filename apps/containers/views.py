@@ -5,7 +5,6 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.template import loader
 from django.urls import reverse
-
 from apps.containers.models import Container, Image
 
 

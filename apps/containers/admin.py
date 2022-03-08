@@ -2,7 +2,6 @@ from django.contrib import admin
 from .models import Container, Image
 
 
-# Register your models here.
 @admin.register(Container)
 class ContainerAdmin(admin.ModelAdmin):
     list_display = ['container_owner', 'image_name', 'container_image', 'duration', 'exposed_ports', 'interactive_flag',

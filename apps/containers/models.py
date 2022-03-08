@@ -4,8 +4,6 @@ from apps.learn.models import ExploitType
 import datetime
 
 
-# Create your models here.
-
 class Image(models.Model):
 
     def __str__(self):

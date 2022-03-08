@@ -2,7 +2,6 @@ from django.contrib import admin
 from .models import ExploitType, Content, ItemBase, Text, File, Image, Video, Lesson
 
 
-# Register your models here.
 @admin.register(ExploitType)
 class ExploitTypeAdmin(admin.ModelAdmin):
     list_display = ['title', 'slug']
