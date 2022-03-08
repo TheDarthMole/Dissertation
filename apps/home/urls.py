@@ -9,8 +9,11 @@ from django.urls import include
 
 urlpatterns = [
 
-    # The home page
+    # The original home page
     path('', views.index, name='home'),
+
+    # The original home page
+    path('dashboard', views.index_original, name='home_original'),
 
     # Matches any html file
     re_path(r'^.*\.*', views.pages, name='pages'),
