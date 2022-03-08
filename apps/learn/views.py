@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse
@@ -25,11 +26,11 @@ def lesson(request):
     return HttpResponse(html_template.render(context, request))
 
 
-class LessonListView(ListView):
+class LessonListView(LoginRequiredMixin, ListView):
     model = Lesson
     template_name = 'learn/lessons.html'
 
 
-class LessonDetailedView(DetailView):
+class LessonDetailedView(LoginRequiredMixin, DetailView):
     model = Lesson
     template_name = 'learn/lesson.html'
