@@ -12,7 +12,8 @@ from django.views.generic import ListView, DetailView
 
 @login_required(login_url="/login/")
 def learn(request):
-    context = {'exploit_types': ExploitType.objects.all()}
+    context = {'segment': 'learn',
+               'exploit_types': ExploitType.objects.all()}
     html_template = loader.get_template('learn/lessons.html')
     return HttpResponse(html_template.render(context, request))
 
