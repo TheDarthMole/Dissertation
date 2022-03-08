@@ -10,7 +10,7 @@ class ExploitTypeAdmin(admin.ModelAdmin):
 
 @admin.register(Lesson)
 class LessonAdmin(admin.ModelAdmin):
-    list_display = ['title', 'exploit_type', 'owner', 'overview', 'created']
+    list_display = ['title', 'exploit_type', 'owner', 'slug', 'overview', 'created']
 
 
 @admin.register(Content)

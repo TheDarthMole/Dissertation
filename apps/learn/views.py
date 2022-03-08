@@ -4,6 +4,7 @@ from django.template import loader
 from django.urls import reverse
 from django.shortcuts import redirect, render
 from apps.learn.models import Lesson, ExploitType
+from django.views.generic import ListView, DetailView
 
 
 # Create your views here.
@@ -18,7 +19,18 @@ def learn(request):
     return HttpResponse(html_template.render(context, request))
 
 
+@login_required(login_url="/login/")
 def lesson(request):
     context = {}  # {'lesson': Lesson}
     html_template = loader.get_template('learn/lesson.html')
     return HttpResponse(html_template.render(context, request))
+
+
+class LessonListView(ListView):
+    model = Lesson
+    template_name = 'learn/lessons.html'
+
+
+class LessonDetailedView(DetailView):
+    model = Lesson
+    template_name = 'learn/lesson.html'

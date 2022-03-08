@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
+from django.urls import reverse
 
 
 class Difficulty:
@@ -50,6 +51,7 @@ class ExploitType(models.Model):
 
 class Lesson(models.Model):
     title = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=200, unique=True)
     exploit_type = models.ForeignKey(ExploitType,
                                      related_name='lesson_exploit_type',
                                      on_delete=models.SET_NULL,
@@ -70,9 +72,16 @@ class Lesson(models.Model):
     def __str__(self):
         return self.title
 
+    def get_absolute_url(self):
+        return reverse('lesson_detail', args=[str(self.slug)])
+
     @property
     def difficulty_str(self):
         return Difficulty().get_label(self.difficulty)
+
+    @property
+    def content(self):
+        return Content.objects.filter(lesson=self).order_by('order_number')
 
 
 class Content(models.Model):
@@ -89,6 +98,31 @@ class Content(models.Model):
                                      on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     item = GenericForeignKey('content_type', 'object_id')
+    order_number = models.IntegerField()
+
+    @property
+    def is_text(self):
+        if self.content_type.model_class() == Text:
+            return True
+        return False
+
+    @property
+    def is_video(self):
+        if self.content_type.model_class() == Video:
+            return True
+        return False
+
+    @property
+    def is_file(self):
+        if self.content_type.model_class() == File:
+            return True
+        return False
+
+    @property
+    def is_image(self):
+        if self.content_type.model_class() == Image:
+            return True
+        return False
 
 
 class ItemBase(models.Model):

@@ -19,10 +19,6 @@
                             </ol>
                         </nav>
                     </div>
-                    {#          <div class="col-lg-6 col-5 text-right">#}
-                    {#            <a href="#" class="btn btn-sm btn-neutral">New</a>#}
-                    {#            <a href="#" class="btn btn-sm btn-neutral">Filters</a>#}
-                    {#          </div>#}
                 </div>
             </div>
         </div>
@@ -35,46 +31,52 @@
 
             {% for exploit in exploit_types %}
 
-            <div class="card shadow">
-                <div class="card-header bg-transparent">
-                    <h3 class="mb-0">{{ exploit.title }}</h3>
-                </div>
-                <div class="card-body">
-                    <div class="row icon-examples">
-                        <!-- Card stats -->
+                <div class="card shadow">
+                    <div class="card-header bg-transparent">
+                        <h3 class="mb-0">{{ exploit.title }}</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row icon-examples">
+                            <!-- Card stats -->
 
-                        {% for lesson in exploit.lessons %}
-                            <div class="col-xl-4 col-md-6">
-                                <div class="card card-stats">
-                                    <!-- Card body -->
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col">
-                                                <h5 class="card-title text-uppercase text-muted mb-0">{{ lesson.title }}</h5>
-                                                <span class="h2 font-weight-bold mb-0">{{ lesson.difficulty_str }}</span>
-                                                <p>{{ lesson.overview }}</p>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
-                                                    <i class="ni ni-active-40"></i>
+                            {% for lesson in exploit.lessons %}
+
+                                <div class="col-xl-4 col-md-6">
+                                    <div class="card card-stats">
+                                        <!-- Card body -->
+                                        <a href="{{ lesson.get_absolute_url }}">
+                                            <div class="card-body">
+
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <h5 class="card-title text-uppercase text-muted mb-0">{{ lesson.title }}</h5>
+                                                        <span class="h2 font-weight-bold mb-0">{{ lesson.difficulty_str }}</span>
+                                                        <p>{{ lesson.overview }}</p>
+                                                    </div>
+
+
+                                                    <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                                                        <i class="ni ni-active-40"></i>
+                                                    </div>
+
                                                 </div>
+                                                <p class="mt-3 mb-0 text-sm">
+                                                    <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                                                    <span class="text-nowrap">Since last month</span>
+                                                </p>
                                             </div>
-                                        </div>
-                                        <p class="mt-3 mb-0 text-sm">
-                                            <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
-                                            <span class="text-nowrap">Since last month</span>
-                                        </p>
+
+                                        </a>
                                     </div>
                                 </div>
-                        </div>
-                        {% endfor %}
 
+                            {% endfor %}
+
+                        </div>
                     </div>
                 </div>
-            </div>
 
             {% endfor %}
-
 
         </div>
     </div>
