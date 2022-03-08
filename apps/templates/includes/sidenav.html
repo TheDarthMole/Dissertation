@@ -20,16 +20,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% if 'progress' in segment %} active {% endif %}"
-                           href="{% url 'learn' %}">
+                           href="{% url 'progression' %}">
                             <i class="ni ni-bullet-list-67 text-primary"></i>
                             <span class="nav-link-text">Progress</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if 'containers' in segment %} active {% endif %}"
-                           href="{% url 'challenges' %}">
-                            <i class="ni ni-app text-primary"></i>
-                            <span class="nav-link-text">Challenges</span>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -39,7 +32,13 @@
                             <span class="nav-link-text">Learn</span>
                         </a>
                     </li>
-
+                    <li class="nav-item">
+                        <a class="nav-link {% if 'containers' in segment %} active {% endif %}"
+                           href="{% url 'challenges' %}">
+                            <i class="ni ni-app text-primary"></i>
+                            <span class="nav-link-text">Challenges</span>
+                        </a>
+                    </li>
                 </ul>
 
 
@@ -52,7 +51,8 @@
                 <!-- Navigation -->
                 <ul class="navbar-nav mb-md-3">
                     <li class="nav-item">
-                        <a class="nav-link {% if 'index_original' in segment %} active {% endif %}" href="{% url 'home_original' %}">
+                        <a class="nav-link {% if 'index_original' in segment %} active {% endif %}"
+                           href="{% url 'home_original' %}">
                             <i class="ni ni-tv-2 text-primary"></i>
                             <span class="nav-link-text">Dashboard</span>
                         </a>

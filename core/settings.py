@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'apps.containers',
     'apps.learn',
+    'apps.progression',
     'apps.home',  # Enable the inner home (home)
 
 ]
