@@ -11,8 +11,14 @@ from django.views.generic import ListView, DetailView
 
 # Create your views here.
 
+def chunk_results(list, n):
+    return [list[i:i+n] for i in range(0, len(list), n)]
+
+
 @login_required(login_url="/login/")
 def progression(request):
-    context = {'segment': 'progression'}
+    print(list(chunk_results(ExploitType.objects.all(), 3)))
+    context = {'segment': 'progression',
+               'chunked_exploit_types': list(chunk_results(ExploitType.objects.all(), 3))}
     html_template = loader.get_template('progression/progression.html')
     return HttpResponse(html_template.render(context, request))
