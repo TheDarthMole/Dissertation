@@ -1,6 +1,7 @@
 import docker
 import json
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.template import loader
@@ -20,10 +21,6 @@ def container(request):
 @login_required(login_url="/login/")
 def start(request):
     if request.method == 'POST':
-        context = {
-
-        }
-        html_template = loader.get_template('containers/start.html')
 
         client = docker.from_env()
         try:
@@ -58,9 +55,26 @@ def start(request):
         except ValueError:
             print("Oopa, something happened!")
 
-    return redirect(reverse("containers"))
+    return redirect(reverse("challenges"))
 
 
 @login_required(login_url="/login/")
-def stop(request):
-    pass
+def stop(request, container_id):
+    print(container_id)
+    valid_container = Container.objects.filter(id=container_id, owner_id=request.user)
+
+    if len(valid_container) != 1:
+        messages.error(request, "Error, that container does not exist")
+        return redirect(reverse("challenges"))
+
+    client = docker.from_env()
+
+    try:
+        image_id = int(request.POST.get('imageID', ''))
+        image_obj = Image.objects.filter(id=image_id)
+
+    except:
+        pass
+
+    messages.info(request, "Error, that container does not exist")
+    return redirect(reverse("challenges"))
