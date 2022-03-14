@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.urls import reverse
+import apps.containers.models as containers
 
 
 class Difficulty:
@@ -83,6 +84,10 @@ class Lesson(models.Model):
     @property
     def content(self):
         return Content.objects.filter(lesson=self).order_by('order_number')
+
+    @property
+    def get_containers(self):
+        return containers.Image.objects.filter(pre_lesson=self)
 
 
 class Content(models.Model):

@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from apps.learn.models import ExploitType
+from apps.learn.models import ExploitType, Lesson
 import datetime
 
 
@@ -30,6 +30,23 @@ class Image(models.Model):
                                      related_name='exploit_type',
                                      on_delete=models.CASCADE,
                                      null=True)
+    # A lesson that should be completed before the container
+    pre_lesson = models.ForeignKey(Lesson,
+                                   related_name='lesson',
+                                   on_delete=models.CASCADE,
+                                   null=True)
+
+    def completed_by(self, user):
+        result = CompletedImage.objects.filter(image=self, user=user)
+        if len(result) == 0:
+            return False
+
+        if len(result) > 1:
+            raise IndexError
+
+        if result[0].completed:
+            return True
+        return False
 
 
 class Container(models.Model):
@@ -79,3 +96,15 @@ class Container(models.Model):
     container_id = models.CharField(max_length=12, blank=True, null=True)
     # When the container was created
     start_time = models.DateTimeField(default=datetime.datetime.utcnow, blank=True)
+
+
+class CompletedImage(models.Model):
+    user = models.ForeignKey(User,
+                             on_delete=models.CASCADE)
+    image = models.ForeignKey(Image, on_delete=models.CASCADE)
+    completed = models.BooleanField(default=False)
+
+    # TODO: Expand this to be dynamic to the content completed in future
+    # @property
+    # def completed(self) -> bool:
+    #     return self.completed
