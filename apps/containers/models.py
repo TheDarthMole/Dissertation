@@ -36,6 +36,8 @@ class Image(models.Model):
                                    on_delete=models.CASCADE,
                                    null=True)
 
+    point_reward = models.IntegerField(default=0)
+
     def completed_by(self, user):
         result = CompletedImage.objects.filter(image=self, user=user)
         if len(result) == 0:
