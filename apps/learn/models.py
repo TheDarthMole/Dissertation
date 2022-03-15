@@ -89,6 +89,18 @@ class Lesson(models.Model):
     def get_containers(self):
         return containers.Image.objects.filter(pre_lesson=self)
 
+    def completed_by(self, user):
+        result = CompletedLesson.objects.filter(lesson=self, user=user)
+        if len(result) == 0:
+            return False
+
+        if len(result) > 1:
+            raise IndexError
+
+        if result[0].completed:
+            return True
+        return False
+
 
 class Content(models.Model):
     lesson = models.ForeignKey(Lesson,
@@ -206,3 +218,11 @@ class Video(ItemBase):
 
         # More content types to come?
         raise NotImplemented
+
+
+class CompletedLesson(models.Model):
+    user = models.ForeignKey(User,
+                             on_delete=models.CASCADE)
+    lesson = models.ForeignKey(Lesson,
+                               on_delete=models.CASCADE)
+    completed = models.BooleanField(default=False)

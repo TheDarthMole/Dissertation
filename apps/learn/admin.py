@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ExploitType, Content, ItemBase, Text, File, Image, Video, Lesson
+from .models import ExploitType, Content, Text, File, Image, Video, Lesson, CompletedLesson
 
 
 @admin.register(ExploitType)
@@ -35,3 +35,8 @@ class VideoAdmin(admin.ModelAdmin):
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):
     list_display = ['title', 'image_content']
+
+
+@admin.register(CompletedLesson)
+class CompletedLessonAdmin(admin.ModelAdmin):
+    list_display = ['user', 'lesson', 'completed']

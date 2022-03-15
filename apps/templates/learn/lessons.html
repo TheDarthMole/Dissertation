@@ -41,7 +41,7 @@
 
                             {% for lesson in exploit.lessons %}
 
-                                <div class="col-xl-4 col-md-6">
+                                <div id="{{ lesson.slug }}" class="col-xl-4 col-md-6">
                                     <div class="card card-stats">
                                         <!-- Card body -->
                                         <a href="{{ lesson.get_absolute_url }}">
