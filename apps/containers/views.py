@@ -19,7 +19,7 @@ def randomword(length):
 @login_required(login_url="/login/")
 def container(request):
     context = {'segment': 'containers',
-               'containers': Container.objects.all(),
+               'containers': Container.objects.filter(owner_id=request.user),
                'images': Image.objects.all()}
     html_template = loader.get_template('containers/containers.html')
     return HttpResponse(html_template.render(context, request))
