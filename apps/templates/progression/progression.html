@@ -47,14 +47,16 @@
 
                                     <div class="timeline-block">
                                         {% for lesson in exploit.lessons %}
-                                            <span class="timeline-step badge-success">
+
+                                            <span class="timeline-step badge-{% if lesson|completed_by:request.user %}success{% else %}warning{% endif %}">
                                               <i class="ni ni-bell-55"></i>
                                             </span>
 
                                             <div class="timeline-content">
-                                                <small class="font-weight-bold">{{ lesson.title }}</small>
-                                                <p class=" text-sm mt-1 mb-0">{{ lesson.overview }}.</p>
-
+                                                <a href="{{ lesson.get_absolute_url }}">
+                                                    <small class="font-weight-bold">{{ lesson.title }}</small>
+                                                    <p class=" text-sm mt-1 mb-0">{{ lesson.overview }}.</p>
+                                                </a>
                                                 <div class="mt-3">
                                                     {% for image in lesson.get_containers %}
                                                         <span class="badge badge-pill badge-{% if image|completed_by:request.user %}success{% else %}warning{% endif %}">{{ image }} - {{ image.image }}:{{ image.tag }}</span>
