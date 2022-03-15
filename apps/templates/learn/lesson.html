@@ -1,80 +1,91 @@
 {% extends 'layouts/base.html' %}
 {% load container_extras %}
-{% load sizify  %}
+{% load sizify %}
+{% load progression_filters %}
 
 {% block title %} Tables {% endblock title %}
 
 {% block content %}
 
- <div class="header bg-primary pb-6">
-    <div class="container-fluid">
-      <div class="header-body">
-        <div class="row align-items-center py-4">
-          <div class="col-lg-6 col-7">
-            <h6 class="h2 text-white d-inline-block mb-0">Learn</h6>
-            <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
-              <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
-                <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
-                <li class="breadcrumb-item"><a href="{% url 'learn' %}#{{ object.exploit_type.slug }}">{{ object.exploit_type }}</a></li>
-                <li class="breadcrumb-item active" aria-current="page">{{ object.title }}</li>
-              </ol>
-            </nav>
-          </div>
-{#          <div class="col-lg-6 col-5 text-right">#}
-{#            <a href="#" class="btn btn-sm btn-neutral">New</a>#}
-{#            <a href="#" class="btn btn-sm btn-neutral">Filters</a>#}
-{#          </div>#}
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-{# Page content #}
-  <div class="container-fluid mt--6">
-    <div class="row justify-content-center">
-        <div class="col-lg-8 card-wrapper">
-
-            {# Card content goes here #}
-            <div class="card">
-                <div class="card-header">
-                    <h1 class="mb-0"> {{ object.title }}</h1>
-                </div>
-
-
-                <div class="card-body">
-                    {% for item in object.content %}
-{#                        TODO: Make admin panel for adding content #}
-                        {% if item.is_text %}
-                            <h2>{{ item.item.title }}</h2>
-                            <p>{{ item.item.text_content }}</p>
-
-                        {% elif item.is_image %}
-                            <img src="{{ item.item.get_absolute_url }}"/>
-
-                        {% elif item.is_video %}
-                            <h2>{{ item.item.title }}</h2>
-                            <iframe width="720" height="480" src="{{ item.item.youtube_embed }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-                        {% elif item.is_file %}
-                            <div class="row">
-                                <a href="{{ item.item.get_absolute_url }}">
-                                    <div class="icon icon-shape bg-info text-white rounded-circle shadow">
-                                        <i class="ni ni-cloud-download-95"></i>
-                                    </div>
-                                    <span class="text-nowrap">{{ item.item.title}} ({{ item.item.file_name }}) {{ item.item.file_size|sizify }}</span>
-                                </a>
-                            </div>
-
-                        {% endif %}
-
-                    {% endfor %}
+    <div class="header bg-primary pb-6">
+        <div class="container-fluid">
+            <div class="header-body">
+                <div class="row align-items-center py-4">
+                    <div class="col-lg-6 col-7">
+                        <h6 class="h2 text-white d-inline-block mb-0">Learn</h6>
+                        <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                                <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+                                <li class="breadcrumb-item"><a
+                                        href="{% url 'learn' %}#{{ object.exploit_type.slug }}">{{ object.exploit_type }}</a>
+                                </li>
+                                <li class="breadcrumb-item active" aria-current="page">{{ object.title }}</li>
+                            </ol>
+                        </nav>
+                    </div>
+                    {#          <div class="col-lg-6 col-5 text-right">#}
+                    {#            <a href="#" class="btn btn-sm btn-neutral">New</a>#}
+                    {#            <a href="#" class="btn btn-sm btn-neutral">Filters</a>#}
+                    {#          </div>#}
                 </div>
             </div>
-
         </div>
     </div>
-  </div>
+
+
+    {# Page content #}
+    <div class="container-fluid mt--6">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 card-wrapper">
+
+                {# Card content goes here #}
+                <div class="card">
+                    <div class="card-header">
+                        <h1 class="mb-0"> {{ object.title }}</h1>
+                    </div>
+
+
+                    <div class="card-body">
+                        {% for item in object.content %}
+                            {#                        TODO: Make admin panel for adding content #}
+                            {% if item.is_text %}
+                                <h2>{{ item.item.title }}</h2>
+                                <p>{{ item.item.text_content }}</p>
+
+                            {% elif item.is_image %}
+                                <img src="{{ item.item.get_absolute_url }}"/>
+
+                            {% elif item.is_video %}
+                                <h2>{{ item.item.title }}</h2>
+                                <iframe width="720" height="480" src="{{ item.item.youtube_embed }}"
+                                        title="YouTube video player" frameborder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowfullscreen></iframe>
+
+                            {% elif item.is_file %}
+                                <div class="row">
+                                    <a href="{{ item.item.get_absolute_url }}">
+                                        <div class="icon icon-shape bg-info text-white rounded-circle shadow">
+                                            <i class="ni ni-cloud-download-95"></i>
+                                        </div>
+                                        <span class="text-nowrap">{{ item.item.title }} ({{ item.item.file_name }}) {{ item.item.file_size|sizify }}</span>
+                                    </a>
+                                </div>
+
+                            {% endif %}
+
+                        {% endfor %}
+                    </div>
+                </div>
+
+                {% if object|completed_by:request.user %}
+                    <a class="btn btn-info">Lesson already completed!</a>
+                {% else %}
+                    <a href="{% url 'complete_lesson' object.slug %}" class="btn btn-success">Complete lesson</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 
 
 

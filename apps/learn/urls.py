@@ -8,6 +8,7 @@ urlpatterns = [
 
     # The containers page
     path('learn', views.learn, name='learn'),
-    path('lesson/<slug:slug>', LessonDetailedView.as_view(), name='lesson_detail')
+    path('lesson/<slug:slug>', LessonDetailedView.as_view(), name='lesson_detail'),
+    path('complete_lesson/<slug:slug>', views.complete_lesson,name='complete_lesson')
 
 ]
