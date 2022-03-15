@@ -5,14 +5,19 @@
 
 {% block content %}
 
-    <div data-notify="container" class="alert alert-danger alert-dismissible fade show animated fadeInDown" role="alert"
-         style="margin-bottom:0">
-        <span class="alert-icon"><i class="ni ni-like-2"></i></span>
-        <span class="alert-text"><strong>Danger!</strong> This is a danger alert—check it out!</span>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">×</span>
-        </button>
-    </div>
+    {% if alerts %}
+        {% for alert in alerts %}
+            <div data-notify="container" class="alert alert-danger alert-dismissible fade show animated fadeInDown"
+                 role="alert"
+                 style="margin-bottom:0">
+                <span class="alert-icon"><i class="ni ni-like-2"></i></span>
+                <span class="alert-text"><strong>Danger!</strong> This is a danger alert—check it out!</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+        {% endfor %}
+    {% endif %}
 
     {#    <div data-notify="container" class="alert alert-dismissible alert-warning alert-notify animated fadeInDown"#}
     {#         role="alert" data-notify-position="top-center"#}
@@ -68,7 +73,7 @@
                                 <th scope="col" class="sort" data-sort="status">Duration Remaining</th>
                                 <th scope="col">Users</th>
                                 <th scope="col" class="sort" data-sort="completion">Completion</th>
-                                <th scope="col"></th>
+                                <th scope="col">Stop</th>
                             </tr>
                             </thead>
                             <tbody class="list">
@@ -96,6 +101,7 @@
                       <span class="status">{{ container.duration|intToTime }} </span>
                     </span>
                                     </td>
+
                                     <td>
                                         <div class="avatar-group">
                                             <a href="#" class="avatar avatar-sm rounded-circle" data-toggle="tooltip"
@@ -128,19 +134,11 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="text-right">
-                                        <div class="dropdown">
-                                            <a class="btn btn-sm btn-icon-only text-light" href="#" role="button"
-                                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="fas fa-ellipsis-v"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                                <a class="dropdown-item" href="#">Action</a>
-                                                <a class="dropdown-item" href="#">Another action</a>
-                                                <a class="dropdown-item" href="#">Something else here</a>
-                                            </div>
-                                        </div>
+                                    <td>
+                                        <a class="btn btn-sm btn-danger"
+                                                   href="{% url 'challenges_stop' container.id %}">Stop Challenge</a>
                                     </td>
+
                                 </tr>
                             {% endfor %}
 
@@ -255,7 +253,7 @@
                                     </td>
                                     <td class="text-right">
                                         <form method="post" action="{% url 'challenges_start' %}"> {% csrf_token %}
-                                            <input type="hidden" id="imageID" name="imageID" value="1">
+                                            <input type="hidden" id="imageID" name="imageID" value="{{ image.id }}">
                                             <button class="btn btn-sm btn-primary" type="submit"> Start Challenge!
                                             </button>
                                         </form>
