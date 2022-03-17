@@ -13,7 +13,6 @@ def chunk_results(list, n):
 
 @login_required(login_url="/login/")
 def progression(request):
-    print(list(chunk_results(ExploitType.objects.all(), 3)))
     context = {'segment': 'progression',
                'chunked_exploit_types': list(chunk_results(ExploitType.objects.all(), 3)),
                'progress_obj': Progression(request.user)}

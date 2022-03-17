@@ -101,10 +101,8 @@ def stop(request, container_id):
     client = docker.from_env()
     try:
         # Get the container to stop
-        print(valid_container[0].container_id)
         try:
             docker_container = client.containers.get(valid_container[0].container_id)
-            print("Got container object")
         except docker.errors.NotFound:
             print(f"Container {valid_container[0].container_id} not found!")
             # The docker container doesn't exist, so the entry is void

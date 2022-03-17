@@ -177,7 +177,6 @@ class File(ItemBase):
 
     @property
     def file_size(self):
-        print(self.file_content.__str__())
         return os.path.getsize(self.file_content.__str__())
 
 
