@@ -9,6 +9,6 @@ from django.shortcuts import redirect, render
 
 @login_required(login_url="/login/")
 def scoreboard(request):
-    context = {}
+    context = {'segment': 'scoreboard'}
     html_template = loader.get_template('scoreboard/scoreboard.html')
     return HttpResponse(html_template.render(context, request))
