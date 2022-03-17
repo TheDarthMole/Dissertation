@@ -1,7 +1,6 @@
 from django.db import models
 from apps.learn.models import ExploitType, Lesson
 from apps.containers.models import Image
-import math
 
 
 # Create your models here.
