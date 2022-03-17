@@ -7,6 +7,17 @@ from django.urls import reverse
 import apps.containers.models as containers
 
 
+def total_lessons_completed(user, exploit_type):
+    lessons = Lesson.objects.filter(exploit_type=exploit_type)
+    lesson_count = 0
+
+    for lesson in lessons:
+        if lesson.completed_by(user):
+            lesson_count += 1
+
+    return lesson_count, len(lessons)
+
+
 class Difficulty:
     difficulty_not_set = '0'
     very_easy = '1'

@@ -1,7 +1,19 @@
 from django.db import models
 from django.contrib.auth.models import User
 from apps.learn.models import ExploitType, Lesson
+from django.db.models import Count
 import datetime
+
+
+def total_images_completed(user, exploit_type):
+    images = Image.objects.filter(exploit_type=exploit_type)
+    image_count = 0
+
+    for image in images:
+        if image.completed_by(user):
+            image_count += 1
+
+    return image_count, len(images)
 
 
 class Image(models.Model):

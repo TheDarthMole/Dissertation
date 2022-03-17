@@ -1,6 +1,6 @@
 from django.db import models
-from apps.learn.models import ExploitType, Lesson
-from apps.containers.models import Image
+from apps.learn.models import ExploitType, Lesson, total_lessons_completed
+from apps.containers.models import Image, total_images_completed
 
 
 # Create your models here.
@@ -9,21 +9,11 @@ class Progression(models.Model):
 
 
 def user_progress_percentage(user, exploit_type):
-    images = Image.objects.filter(exploit_type=exploit_type)
-    lessons = Lesson.objects.filter(exploit_type=exploit_type)
 
-    image_count = 0
-    lesson_count = 0
+    image_count, total_images = total_images_completed(user, exploit_type)
+    lesson_count, total_lessons = total_lessons_completed(user, exploit_type)
 
-    for lesson in lessons:
-        if lesson.completed_by(user):
-            lesson_count += 1
-
-    for image in images:
-        if image.completed_by(user):
-            image_count += 1
-
-    if len(images) + len(lessons) == 0:
+    if total_images + total_lessons == 0:
         return 0
 
-    return round((image_count + lesson_count) / (len(images) + len(lessons)) * 100, 1)
+    return round((image_count + lesson_count) / (total_images + total_lessons) * 100, 1)
