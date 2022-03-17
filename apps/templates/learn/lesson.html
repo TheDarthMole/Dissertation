@@ -20,7 +20,7 @@
                                         href="{% url 'learn' %}">Learn</a>
                                 </li>
                                 <li class="breadcrumb-item"><a
-                                        href="{% url 'learn' %}#{{ object.exploit_type.slug }}">{{ object.slug }}</a>
+                                        href="{% url 'learn' %}#{{ object.exploit_type.slug }}">{{ object.exploit_type.slug|upper }}</a>
                                 </li>
                                 <li class="breadcrumb-item active" aria-current="page">{{ object.title }}</li>
                             </ol>
