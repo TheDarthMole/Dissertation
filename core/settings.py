@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'apps.containers',
     'apps.learn',
     'apps.progression',
+    'apps.scoreboard',
     'apps.home',  # Enable the inner home (home)
 
 ]

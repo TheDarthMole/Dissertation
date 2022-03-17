@@ -12,5 +12,6 @@ urlpatterns = [
     path("", include("apps.containers.urls")),          # The containers files
     path("", include("apps.learn.urls")),               # The course content files
     path("", include("apps.progression.urls")),         # The progression of the user
+    path("", include("apps.scoreboard.urls")),          # The scoreboards of users
     path("", include("apps.home.urls")),                # UI Kits Html files
     ]
