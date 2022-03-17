@@ -15,8 +15,7 @@ def user_progress_percentage(user, exploit_type):
 
     image_count = 0
     lesson_count = 0
-    print(images)
-    print(lessons)
+
     for lesson in lessons:
         if lesson.completed_by(user):
             lesson_count += 1
@@ -24,6 +23,8 @@ def user_progress_percentage(user, exploit_type):
     for image in images:
         if image.completed_by(user):
             image_count += 1
+
     if len(images) + len(lessons) == 0:
         return 0
+
     return round((image_count + lesson_count) / (len(images) + len(lessons)) * 100, 1)
