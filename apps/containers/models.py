@@ -106,8 +106,8 @@ class Container(models.Model):
     owner_id = models.ForeignKey(User, on_delete=models.CASCADE)
     # The image that the container uses
     container_image = models.ForeignKey(Image, on_delete=models.CASCADE)
-    # The container ID once it has been created, 12 is the size of a normal containers
-    container_id = models.CharField(max_length=12, blank=True, null=True)
+    # The container ID once it has been created, having issues with naming it 'container_id' so it's named slug
+    slug = models.SlugField(max_length=16, unique=True, default='0'*16)
     # When the container was created
     start_time = models.DateTimeField(default=datetime.datetime.utcnow, blank=True)
 

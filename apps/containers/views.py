@@ -1,14 +1,18 @@
 import json
+import random
+import string
 
 import docker
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.template import loader
 from django.urls import reverse
+from django.views.generic import DetailView
+
 from apps.containers.models import Container, Image
-import random, string
 
 
 def randomword(length):
@@ -17,7 +21,7 @@ def randomword(length):
 
 
 @login_required(login_url="/login/")
-def container(request):
+def containers(request):
     context = {'segment': 'containers',
                'containers': Container.objects.filter(owner_id=request.user),
                'images': Image.objects.all()}
@@ -39,8 +43,6 @@ def start(request):
 
             image_obj = image_obj[0]
 
-            new_container = Container(owner_id=request.user,
-                                      container_image=image_obj)
             # Parse JSON strings
             port_mappings = json.loads(image_obj.exposed_ports)
             environment = json.loads(image_obj.environment)
@@ -56,8 +58,11 @@ def start(request):
             if not image_obj.rm_flag:  # Mutually exclusive events
                 kwargs['restart_policy'] = {"Name": "always"}
 
-            container_id = client.containers.run(image_obj.image, **kwargs)
-            new_container.container_id = container_id.id
+            docker_container = client.containers.run(image_obj.image, **kwargs)
+
+            new_container = Container(owner_id=request.user,
+                                      container_image=image_obj,
+                                      slug=docker_container.id)
 
             new_container.save()
 
@@ -73,7 +78,7 @@ def remove_broken_containers():
 
     for container_app in containers_web_app:
         try:
-            client.containers.get(container_app.container_id)
+            client.containers.get(container_app.slug)
         except docker.errors.NotFound:
             container_app.delete()
 
@@ -83,16 +88,17 @@ def remove_broken_containers():
         # If the container is made for the app (Don't inspect apps not started by the app)
         if container_docker.name[:5] == "cntr_" and len(container_docker.name) == 15:
             # Search for the container in the app database
-            filtered_container = Container.objects.filter(container_id=container_docker.id)
+            filtered_container = Container.objects.filter(slug=container_docker.id)
             if len(filtered_container) != 1:
                 try:
                     container_docker.remove(force=True, v=True)
                 except docker.errors.APIError:
                     print("There was an error stopping & removing the container: " + container_docker.id)
 
+
 @login_required(login_url="/login/")
-def stop(request, container_id):
-    valid_container = Container.objects.filter(id=container_id, owner_id=request.user)
+def stop(request, slug):
+    valid_container = Container.objects.filter(slug=slug, owner_id=request.user)
 
     if len(valid_container) != 1:
         messages.error(request, "Error, that container does not exist")
@@ -102,9 +108,9 @@ def stop(request, container_id):
     try:
         # Get the container to stop
         try:
-            docker_container = client.containers.get(valid_container[0].container_id)
+            docker_container = client.containers.get(valid_container[0].slug)
         except docker.errors.NotFound:
-            print(f"Container {valid_container[0].container_id} not found!")
+            print(f"Container {valid_container[0].slug} not found!")
             # The docker container doesn't exist, so the entry is void
             valid_container.delete()
 
@@ -121,3 +127,8 @@ def stop(request, container_id):
         print("There was an error stopping & removing the container: " + docker_container.id)
 
     return redirect(reverse("challenges"))
+
+
+class ContainerDetailedView(LoginRequiredMixin, DetailView):
+    model = Container
+    template_name = 'containers/container.html'
