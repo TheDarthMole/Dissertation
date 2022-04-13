@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 from apps.learn.models import ExploitType, Lesson
-from django.db.models import Count
 import datetime
 
 
@@ -110,6 +109,7 @@ class Container(models.Model):
     slug = models.SlugField(max_length=16, unique=True, default='0'*16)
     # When the container was created
     start_time = models.DateTimeField(default=datetime.datetime.utcnow, blank=True)
+    # code =
 
 
 class CompletedImage(models.Model):

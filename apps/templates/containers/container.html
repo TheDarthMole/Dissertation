@@ -1,54 +1,37 @@
 {% extends 'layouts/base.html' %}
 {% load container_extras %}
+{% load djangocodemirror_tags %}
 
 {% block stylesheets %}
-        <link href="/static/assets/vendor/codemirror/theme/dracula.css" rel="stylesheet"/>
+    {#    <link href="/static/external/css/github-markdown.css" type="text/css" media="all" rel="stylesheet">#}
+    {#    <link href="/static/django_monaco_editor/css/editor.css" type="text/css" media="all" rel="stylesheet">#}
+    {#    <script src="/static/external/monaco-editor/min/vs/loader.js"></script>#}
+
 {% endblock stylesheets %}
 
 {% block title %} {{ container.container_image }} {% endblock title %}
 
 {% block content %}
 
-    <div class="header bg-primary pb-6">
-        <div class="container-fluid">
-            <div class="header-body">
-                <div class="row align-items-center py-4">
-                    <div class="col-lg-6 col-7">
-                        <h6 class="h2 text-white d-inline-block mb-0">{{ container.container_image }}</h6>
-                        <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
-                            <ol class="breadcrumb breadcrumb-links breadcrumb-light">
-                                <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
-                                <li class="breadcrumb-item"><a href="{% url 'challenges' %}">Challenges</a></li>
-                            </ol>
-                        </nav>
-                    </div>
-                    <div class="col-lg-6 col-5 text-right">
-                        <a href="#" class="btn btn-sm btn-neutral">New</a>
-                        <a href="#" class="btn btn-sm btn-neutral">Filters</a>
-                    </div>
-                </div>
+    <div class="row">
+        <div class="col">
+            <div class="card">
+
             </div>
         </div>
-    </div>
+        <div class="col">
+            <div class="card">
+                <p>God is dead</p>
+                <form>
+                    <textarea id="code" name="code">Lorem ipsum dolor sit amet.</textarea>
+                </form>
 
+                {% codemirror_instance 'restructuredtext' 'code_codemirror' 'code' %}
 
-    <div class="container-fluid mt--6">
-        <div class="row">
-            <div class="col">
-                <div class="card">
-                    abc
-                </div>
+                <p>God is still dead</p>
             </div>
-            <div class="col">
-                <div class="card">
-                    <p>aa</p>
-{#                    <script src="/static/assets/vendor/codemirror/lib/codemirror.js"></script>#}
-                    <textarea id="editor" class=""></textarea>
-                </div>
-            </div>
-
-
         </div>
+
     </div>
 
 
@@ -56,6 +39,5 @@
 
 <!-- Specific JS goes HERE -->
 {% block javascripts %}
-
-        <script type="module" src="/static/assets/js/code_display.js"></script>
+    <script src="/static/assets/js/code_display.js"></script>
 {% endblock javascripts %}

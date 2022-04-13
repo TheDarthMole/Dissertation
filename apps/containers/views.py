@@ -62,7 +62,7 @@ def start(request):
 
             new_container = Container(owner_id=request.user,
                                       container_image=image_obj,
-                                      slug=docker_container.id)
+                                      slug=docker_container.id[16])
 
             new_container.save()
 
@@ -131,4 +131,5 @@ def stop(request, slug):
 
 class ContainerDetailedView(LoginRequiredMixin, DetailView):
     model = Container
+
     template_name = 'containers/container.html'
