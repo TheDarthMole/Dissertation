@@ -1,6 +1,6 @@
 {% extends 'layouts/base.html' %}
 {% load container_extras %}
-{% load djangocodemirror_tags %}
+{#{% load djangocodemirror_tags %}#}
 
 {% block stylesheets %}
     {#    <link href="/static/external/css/github-markdown.css" type="text/css" media="all" rel="stylesheet">#}
@@ -22,11 +22,45 @@
         <div class="col">
             <div class="card">
                 <p>God is dead</p>
-                <form>
-                    <textarea id="code" name="code">Lorem ipsum dolor sit amet.</textarea>
-                </form>
+                editor code here
+                <div id="editor">
+/**
+ * MapSearch.java
+ * search for map traversal
+ * 2013 version
+ */
 
-                {% codemirror_instance 'restructuredtext' 'code_codemirror' 'code' %}
+public class MapSearch extends Search {
+
+    private final Carta map;    //map we're searching
+    private final String goal;    //goal city
+
+    /**
+     * constructor takes map and goal city
+     *
+     * @param m map
+     * @param g goal city
+     */
+    public MapSearch(Carta m, String g) {
+        map = m;
+        goal = g;
+    }
+
+    /**
+     * accessor for map
+     */
+    public Carta getMap() {
+        return map;
+    }
+
+    /**
+     * accessor for goal city
+     */
+    public String getGoal() {
+        return goal;
+        }
+    }
+                </div>
 
                 <p>God is still dead</p>
             </div>
@@ -39,5 +73,6 @@
 
 <!-- Specific JS goes HERE -->
 {% block javascripts %}
-    <script src="/static/assets/js/code_display.js"></script>
+{#    <script src="/static/assets/js/code_display.js"></script>#}
+    <script src="/static/assets/js/editor.bundle.js"></script>
 {% endblock javascripts %}

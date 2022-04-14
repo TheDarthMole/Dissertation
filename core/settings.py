@@ -7,6 +7,7 @@ import os
 from decouple import config
 from unipath import Path
 from djangocodemirror.settings import *
+from djangocodemirror.helper import codemirror_settings_update
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = Path(__file__).parent
@@ -30,7 +31,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'djangocodemirror',
+    # 'djangocodemirror',
     'apps.containers',
     'apps.learn',
     'apps.progression',
@@ -128,7 +129,6 @@ LESSON_IMAGES = os.path.join(IMAGE_URL, 'lessons')
 STATICFILES_DIRS = (
     os.path.join(CORE_DIR, 'apps/static'),
 )
-
 
 #############################################################
 #############################################################

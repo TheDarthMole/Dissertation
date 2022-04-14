@@ -1,21 +1,39 @@
 {
-    "name": "argon-dashboard-django",
-    "mastertemplate": "boilerplate-code-django-dashboard",
-    "version": "1.0.2",
-    "description": "Template project - Django Boilerplate Code ",
-    "scripts": {},
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/creativetimofficial/argon-dashboard-django"
-    },
-    "bugs": {
-        "url": "https://github.com/creativetimofficial/argon-dashboard-django/issues",
-        "email": "support@appseed.us"
-    },
-    "author": "Creative-Tim / AppSeed.us",
-    "engines": {
-        "node": ">=10.0.0"
-    },
-    "dependencies": {},
-    "devDependencies": {}
+  "name": "django-vuln-fixer",
+  "mastertemplate": "boilerplate-code-django-dashboard",
+  "version": "1.0.2",
+  "description": "",
+  "watch": {
+    "start": {
+      "patterns": ["apps/static/assets/js/editor.js"],
+      "quiet": false
+    }
+  },
+  "scripts": {
+    "start": "rollup -c",
+    "watch": "npm-watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thedarthmole/dissertation.git"
+  },
+  "bugs": {
+    "url": "https://github.com/thedarthmole/dissertation/issues",
+    "email": ""
+  },
+  "author": "Nick Ruffles",
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "homepage": "",
+  "main": "index.js",
+  "keywords": [],
+  "license": "ISC",
+  "dependencies": {
+    "@codemirror/basic-setup": "^0.19.3",
+    "@codemirror/lang-java": "^0.19.1",
+    "@rollup/plugin-node-resolve": "^13.2.0",
+    "npm-watch": "^0.11.0",
+    "rollup": "^2.70.1"
+  }
 }
