@@ -49,6 +49,9 @@ class Image(models.Model):
 
     point_reward = models.IntegerField(default=0)
 
+    # the code for the container that the users can edit, this is pulled into the Container instance
+    code = models.TextField(null=True, blank=True)
+
     def completed_by(self, user):
         result = CompletedImage.objects.filter(image=self, user=user)
         if len(result) == 0:
@@ -109,7 +112,15 @@ class Container(models.Model):
     slug = models.SlugField(max_length=16, unique=True, default='0'*16)
     # When the container was created
     start_time = models.DateTimeField(default=datetime.datetime.utcnow, blank=True)
-    # code =
+    # The base64 encoded code for the container
+    code = models.TextField(null=True, blank=True)
+
+    # Override the save method so that we force the creation of the code field, pulling from Image.code
+    def save(self, *args, **kwargs):
+        if not self.code:
+            self.code = self.container_image.code
+
+        super(Container, self).save(*args, **kwargs)
 
 
 class CompletedImage(models.Model):

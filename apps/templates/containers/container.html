@@ -1,78 +1,75 @@
 {% extends 'layouts/base.html' %}
 {% load container_extras %}
-{#{% load djangocodemirror_tags %}#}
 
 {% block stylesheets %}
-    {#    <link href="/static/external/css/github-markdown.css" type="text/css" media="all" rel="stylesheet">#}
-    {#    <link href="/static/django_monaco_editor/css/editor.css" type="text/css" media="all" rel="stylesheet">#}
-    {#    <script src="/static/external/monaco-editor/min/vs/loader.js"></script>#}
-
 {% endblock stylesheets %}
 
 {% block title %} {{ container.container_image }} {% endblock title %}
 
 {% block content %}
-
-    <div class="row">
-        <div class="col">
-            <div class="card">
-
-            </div>
-        </div>
-        <div class="col">
-            <div class="card">
-                <p>God is dead</p>
-                editor code here
-                <div id="editor">
-/**
- * MapSearch.java
- * search for map traversal
- * 2013 version
- */
-
-public class MapSearch extends Search {
-
-    private final Carta map;    //map we're searching
-    private final String goal;    //goal city
-
-    /**
-     * constructor takes map and goal city
-     *
-     * @param m map
-     * @param g goal city
-     */
-    public MapSearch(Carta m, String g) {
-        map = m;
-        goal = g;
-    }
-
-    /**
-     * accessor for map
-     */
-    public Carta getMap() {
-        return map;
-    }
-
-    /**
-     * accessor for goal city
-     */
-    public String getGoal() {
-        return goal;
-        }
-    }
+    <div class="header bg-primary pb-6">
+        <div class="container-fluid">
+            <div class="header-body">
+                <div class="row align-items-center py-4">
+                    <div class="col-lg-6 col-7">
+                        <h6 class="h2 text-white d-inline-block mb-0">Tables</h6>
+                        <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                            <ol class="breadcrumb breadcrumb-links breadcrumb-light">
+                                <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'challenges' %}">Challenges</a></li>
+                            </ol>
+                        </nav>
+                    </div>
+                    <div class="col-lg-6 col-5 text-right">
+                        <a href="#" class="btn btn-sm btn-neutral">New</a>
+                        <a href="#" class="btn btn-sm btn-neutral">Filters</a>
+                    </div>
                 </div>
-
-                <p>God is still dead</p>
             </div>
         </div>
-
     </div>
+
+
+    <div class="container-fluid mt--6">
+        <div class="row">
+            <div class="col">
+
+                <!-- Active containers -->
+                <div class="card">
+                    <div class="card-header">
+                        <h1 class="mb-0">{{ container }}</h1>
+                    </div>
+
+                    <div class="card-body">
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="col">
+
+                <!-- Active containers -->
+                <div class="card">
+                    <div class="card-header">
+                        <h1 class="mb-0">Editor</h1>
+                    </div>
+
+                    <div class="card-body">
+                        <div id="editor">
+                            {{ container.code|toBase64 }}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 
 {% endblock content %}
 
 <!-- Specific JS goes HERE -->
 {% block javascripts %}
-{#    <script src="/static/assets/js/code_display.js"></script>#}
     <script src="/static/assets/js/editor.bundle.js"></script>
 {% endblock javascripts %}
