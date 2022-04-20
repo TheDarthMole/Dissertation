@@ -1,8 +1,10 @@
+from time import sleep
+import docker
 import json
 import random
 import string
+import base64
 
-import docker
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -53,7 +55,7 @@ def start(request):
                       'stdin_open': image_obj.interactive_flag,
                       'ports': port_mappings,
                       'environment': environment,
-                      'name': f'cntr_{randomword(10)}'
+                      'name': f'cntr_{randomword(10)}',
                       }
             if not image_obj.rm_flag:  # Mutually exclusive events
                 kwargs['restart_policy'] = {"Name": "always"}
@@ -133,3 +135,60 @@ class ContainerDetailedView(LoginRequiredMixin, DetailView):
     model = Container
 
     template_name = 'containers/container.html'
+
+
+def is_container_running(container_id):
+    docker_client = docker.from_env()
+    RUNNING = "running"
+
+    try:
+        container = docker_client.containers.get(container_id)
+    except docker.errors.NotFound as exc:
+        print(f"Check container name!\n{exc.explanation}")
+    else:
+        container_state = container.attrs["State"]
+        return container_state["Status"] == RUNNING
+
+
+@login_required(login_url="/login/")
+def submit_challenge(request):
+    if request.method == 'POST':
+        b64code = request.POST.get('form_b64_code')
+        code = base64.b64decode(b64code).decode('utf8')
+        container_id = request.POST.get('form_container')
+
+
+
+        container = Container.objects.filter(container_id)[0]
+
+        docker_client = docker.from_env()
+        image_obj = Image.objects.get(container.image)
+
+        port_mappings = json.loads(image_obj.exposed_ports)
+        environment = json.loads(image_obj.environment)
+
+        kwargs = {'detach': True,
+                  'auto_remove': image_obj.rm_flag,
+                  'tty': image_obj.tty_flag,
+                  'stdin_open': image_obj.interactive_flag,
+                  'ports': port_mappings,
+                  'environment': environment,
+                  'name': f'cntr_{randomword(10)}',
+                  'command': 'mvn run'
+                  }
+
+        docker_container = docker_client.containers.run(image_obj.image,**kwargs)
+
+        print("logs:")
+        print(docker_container.logs())
+
+        # The code directory is expected to be in /source
+
+        docker_container.exec_run(f"mvn test", workdir='/source')
+
+        # return redirect(request.get_full_path())
+        # TODO
+
+        # f"git clone {git_url} ."
+
+        return redirect(reverse('challenge_view', request.POST['form_container']))

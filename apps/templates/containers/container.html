@@ -51,7 +51,23 @@
                 <!-- Active containers -->
                 <div class="card">
                     <div class="card-header">
-                        <h1 class="mb-0">Editor</h1>
+                        <div class="row align-items-center">
+                            <div class="col-1g-6 col-7">
+                                <h1 class="mb-0">Editor</h1>
+                            </div>
+                            <div class="col-1g-6 col-5">
+                                <div class="text-right">
+                                    <a id="submit_code" class="btn btn-success">Submit</a>
+                                    <form id="code_submission_form" name="code_submission_form" action="{% url 'challenge_submission' %}" method="post">
+                                        {% csrf_token %}
+                                        <input id="form_container" name="form_container" type="hidden" value="{{ container.slug }}">
+                                        <input id="form_b64_code" name="form_b64_code" type="hidden" value="">
+{#                                        <input class="btn btn-success" type="submit" name="submit" onclick="">#}
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
 
                     <div class="card-body">

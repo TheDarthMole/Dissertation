@@ -37,3 +37,24 @@ let editor = new EditorView({
   parent: editor_element
 })
 
+
+
+document.getElementById('submit_code').addEventListener("click", ()=> {
+    // submitting the code
+    let code = editor.state.doc.toString();
+    let b64code = btoa(code);
+
+    // Add the encoded form text to be sent to the server
+    // We do this hacky way of editing a form element instead of doing it all in JS
+    // Because of Django's need for a CSRF token
+    let form_code_input = document.getElementById('form_b64_code');
+
+    console.log(form_code_input)
+    form_code_input.value = b64code;
+
+    console.log(form_code_input.value);
+
+    // Submit the form
+    document.code_submission_form.submit()
+
+})
