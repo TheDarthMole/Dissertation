@@ -45,36 +45,6 @@ def start(request):
 
             image_obj = image_obj[0]
 
-            # Parse JSON strings
-            # port_mappings = json.loads(image_obj.exposed_ports)
-            # environment = json.loads(image_obj.environment)
-
-            # kwargs = {'detach': True,
-            #           'auto_remove': False,  # image_obj.rm_flag
-            #           'tty': image_obj.tty_flag,
-            #           'stdin_open': image_obj.interactive_flag,
-            #           'ports': port_mappings,
-            #           'environment': environment,
-            #           'name': f'cntr_{randomword(10)}',
-            #           }
-
-            # kwargs = {'detach': False,
-            #           'auto_remove': False,  # image_obj.rm_flag
-            #           'tty': image_obj.tty_flag,
-            #           'stdin_open': image_obj.interactive_flag,
-            #           'ports': port_mappings,
-            #           'environment': environment,
-            #           'name': f'cntr_{randomword(10)}',
-            #           # The code directory is expected to be in /source, eg. /source/pom.xml
-            #           'working_dir': '/source',
-            #           'entrypoint': image_obj.command
-            #           }
-            #
-            # # if not image_obj.rm_flag:  # Mutually exclusive events
-            # #     kwargs['restart_policy'] = {"Name": "always"}
-            #
-            # docker_container = client.containers.create(image_obj.image, **kwargs)
-            # print(docker_container)
             new_container = Container(owner_id=request.user,
                                       container_image=image_obj,
                                       slug=randomword(16))
@@ -150,6 +120,7 @@ class ContainerDetailedView(LoginRequiredMixin, DetailView):
 
     template_name = 'containers/container.html'
 
+
 @login_required(login_url="/login/")
 def submit_challenge(request):
     if request.method == 'POST':
@@ -206,4 +177,18 @@ def submit_challenge(request):
 
         print(f"Runs: {runs}, Failures: {failures}, Skipped: {skipped}")
 
-        return redirect('challenge_view', slug=container.slug)
+        if failures == 0:
+            # Success! They fixed the issue
+            messages.add_message(request, messages.INFO, f"Well done! You completed {container.container_image}!")
+            # @TODO: Add score here, as container is successfully completed
+            container.delete()
+            return redirect('challenges')
+        else:
+            # There were errors!
+            messages.add_message(request, messages.ERROR,
+                                 f"Your code did not pass the inspection. There are {failures} JUnit failures for " +
+                                 f"{container.container_image}!")
+
+            return redirect('challenge_view', slug=container.slug)
+
+        # return

@@ -62,9 +62,7 @@ class Image(models.Model):
         if len(result) > 1:
             raise IndexError
 
-        if result[0].completed:
-            return True
-        return False
+        return bool(result[0].completed)
 
 
 class Container(models.Model):
