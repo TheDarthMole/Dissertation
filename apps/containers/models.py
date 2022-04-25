@@ -51,6 +51,8 @@ class Image(models.Model):
 
     # the code for the container that the users can edit, this is pulled into the Container instance
     code = models.TextField(null=True, blank=True)
+    command = models.TextField(default="mvn test")
+    file_location = models.TextField(null=True, blank=True)
 
     def completed_by(self, user):
         result = CompletedImage.objects.filter(image=self, user=user)
@@ -114,6 +116,7 @@ class Container(models.Model):
     start_time = models.DateTimeField(default=datetime.datetime.utcnow, blank=True)
     # The base64 encoded code for the container
     code = models.TextField(null=True, blank=True)
+
 
     # Override the save method so that we force the creation of the code field, pulling from Image.code
     def save(self, *args, **kwargs):

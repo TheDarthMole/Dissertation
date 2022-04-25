@@ -46,29 +46,43 @@ def start(request):
             image_obj = image_obj[0]
 
             # Parse JSON strings
-            port_mappings = json.loads(image_obj.exposed_ports)
-            environment = json.loads(image_obj.environment)
+            # port_mappings = json.loads(image_obj.exposed_ports)
+            # environment = json.loads(image_obj.environment)
 
-            kwargs = {'detach': True,
-                      'auto_remove': image_obj.rm_flag,
-                      'tty': image_obj.tty_flag,
-                      'stdin_open': image_obj.interactive_flag,
-                      'ports': port_mappings,
-                      'environment': environment,
-                      'name': f'cntr_{randomword(10)}',
-                      }
-            if not image_obj.rm_flag:  # Mutually exclusive events
-                kwargs['restart_policy'] = {"Name": "always"}
+            # kwargs = {'detach': True,
+            #           'auto_remove': False,  # image_obj.rm_flag
+            #           'tty': image_obj.tty_flag,
+            #           'stdin_open': image_obj.interactive_flag,
+            #           'ports': port_mappings,
+            #           'environment': environment,
+            #           'name': f'cntr_{randomword(10)}',
+            #           }
 
-            docker_container = client.containers.run(image_obj.image, **kwargs)
-
+            # kwargs = {'detach': False,
+            #           'auto_remove': False,  # image_obj.rm_flag
+            #           'tty': image_obj.tty_flag,
+            #           'stdin_open': image_obj.interactive_flag,
+            #           'ports': port_mappings,
+            #           'environment': environment,
+            #           'name': f'cntr_{randomword(10)}',
+            #           # The code directory is expected to be in /source, eg. /source/pom.xml
+            #           'working_dir': '/source',
+            #           'entrypoint': image_obj.command
+            #           }
+            #
+            # # if not image_obj.rm_flag:  # Mutually exclusive events
+            # #     kwargs['restart_policy'] = {"Name": "always"}
+            #
+            # docker_container = client.containers.create(image_obj.image, **kwargs)
+            # print(docker_container)
             new_container = Container(owner_id=request.user,
                                       container_image=image_obj,
-                                      slug=docker_container.id[16])
+                                      slug=randomword(16))
 
             new_container.save()
 
-        except ValueError:
+        except ValueError as e:
+            print(e)
             print("Oopa, something happened!")
 
     return redirect(reverse("challenges"))
@@ -136,20 +150,6 @@ class ContainerDetailedView(LoginRequiredMixin, DetailView):
 
     template_name = 'containers/container.html'
 
-
-def is_container_running(container_id):
-    docker_client = docker.from_env()
-    RUNNING = "running"
-
-    try:
-        container = docker_client.containers.get(container_id)
-    except docker.errors.NotFound as exc:
-        print(f"Check container name!\n{exc.explanation}")
-    else:
-        container_state = container.attrs["State"]
-        return container_state["Status"] == RUNNING
-
-
 @login_required(login_url="/login/")
 def submit_challenge(request):
     if request.method == 'POST':
@@ -157,38 +157,53 @@ def submit_challenge(request):
         code = base64.b64decode(b64code).decode('utf8')
         container_id = request.POST.get('form_container')
 
+        container = Container.objects.filter(slug=container_id)[0]
 
-
-        container = Container.objects.filter(container_id)[0]
+        # container = Container.objects.filter(container_id)[0]
 
         docker_client = docker.from_env()
-        image_obj = Image.objects.get(container.image)
+        image_obj = container.container_image
 
         port_mappings = json.loads(image_obj.exposed_ports)
         environment = json.loads(image_obj.environment)
 
-        kwargs = {'detach': True,
-                  'auto_remove': image_obj.rm_flag,
+        # Overwrite the file in the container with the user's file, then compile it using the image's command
+        # Docker 'fails' if using 'mvn test', as it returns a non-zero value, using '|| true' makes sure
+        # it is always a zero return
+        command = f"bash -c \"echo -n '{b64code}' | base64 -d > {image_obj.file_location}; {image_obj.command} " \
+                  f"|| true \" "
+
+        kwargs = {'detach': False,
+                  'auto_remove': True,  # image_obj.rm_flag
                   'tty': image_obj.tty_flag,
                   'stdin_open': image_obj.interactive_flag,
                   'ports': port_mappings,
                   'environment': environment,
                   'name': f'cntr_{randomword(10)}',
-                  'command': 'mvn run'
+                  # The code directory is expected to be in /source, eg. /source/pom.xml
+                  'working_dir': '/source',
+                  'command': command
                   }
 
-        docker_container = docker_client.containers.run(image_obj.image,**kwargs)
+        try:
+            docker_container = docker_client.containers.run(image_obj.image, **kwargs)
+        except Exception as e:
+            print(e)
 
-        print("logs:")
-        print(docker_container.logs())
+        logs = str(docker_container, 'utf8')
 
-        # The code directory is expected to be in /source
+        # print("logs: " + logs)
 
-        docker_container.exec_run(f"mvn test", workdir='/source')
+        start_index = logs.rfind("Tests run:")
+        end_index = logs.find("\n", start_index)
+        results = logs[start_index:end_index]
+        print(results)
+        split = results.split(": ")
 
-        # return redirect(request.get_full_path())
-        # TODO
+        runs = int(split[1].split(",")[0])
+        failures = int(split[2].split(",")[0])
+        skipped = int(split[3].split(",")[0])
 
-        # f"git clone {git_url} ."
+        print(f"Runs: {runs}, Failures: {failures}, Skipped: {skipped}")
 
-        return redirect(reverse('challenge_view', request.POST['form_container']))
+        return redirect('challenge_view', slug=container.slug)
