@@ -37,7 +37,7 @@ let editor = new EditorView({
   parent: editor_element
 })
 
-
+editor_element.removeAttribute("hidden");
 
 document.getElementById('submit_code').addEventListener("click", ()=> {
     // submitting the code
