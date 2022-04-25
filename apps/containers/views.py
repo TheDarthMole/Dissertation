@@ -55,7 +55,7 @@ def start(request):
             print(e)
             print("Oopa, something happened!")
 
-    return redirect(reverse("challenges"))
+    return redirect('challenge_view', slug=new_container.slug)
 
 
 def remove_broken_containers():
@@ -135,6 +135,9 @@ def submit_challenge(request):
         docker_client = docker.from_env()
         image_obj = container.container_image
 
+        container.code = code
+        container.save()
+
         port_mappings = json.loads(image_obj.exposed_ports)
         environment = json.loads(image_obj.environment)
 
@@ -179,7 +182,7 @@ def submit_challenge(request):
 
         if failures == 0:
             # Success! They fixed the issue
-            messages.add_message(request, messages.INFO, f"Well done! You completed {container.container_image}!")
+            messages.add_message(request, messages.SUCCESS, f"Well done! You completed {container.container_image}!")
             # @TODO: Add score here, as container is successfully completed
             container.delete()
             return redirect('challenges')

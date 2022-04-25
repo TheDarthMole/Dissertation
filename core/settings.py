@@ -5,6 +5,7 @@ Copyright (c) 2019 - present AppSeed.us
 
 import os
 from decouple import config
+from django.contrib import messages
 from unipath import Path
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -130,3 +131,13 @@ STATICFILES_DIRS = (
 
 #############################################################
 #############################################################
+
+# Notification Message tags
+
+MESSAGE_TAGS = {
+    messages.DEBUG: 'info',
+    messages.INFO: 'info',
+    messages.SUCCESS: 'success',
+    messages.WARNING: 'warning',
+    messages.ERROR: 'danger',
+}
