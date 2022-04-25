@@ -15068,7 +15068,8 @@
             update(update) {
                 if (update.docChanged || update.viewportChanged ||
                     update.startState.facet(language) != update.state.facet(language) ||
-                    update.startState.field(foldState, false) != update.state.field(foldState, false))
+                    update.startState.field(foldState, false) != update.state.field(foldState, false) ||
+                    syntaxTree(update.startState) != syntaxTree(update.state))
                     this.markers = this.buildMarkers(update.view);
             }
             buildMarkers(view) {
