@@ -5,7 +5,9 @@
   "description": "",
   "watch": {
     "start": {
-      "patterns": ["apps/static/assets/js/editor.js"],
+      "patterns": [
+        "apps/static/assets/js/editor.js"
+      ],
       "quiet": false
     }
   },
