@@ -24,17 +24,19 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', config('SERVER', default='127.0.0.1')
 # Application definition
 
 INSTALLED_APPS = [
+    'apps.accounts',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'djangocodemirror',
+
     'apps.containers',
     'apps.learn',
     'apps.progression',
     'apps.scoreboard',
+
     'apps.home',  # Enable the inner home (home)
 
 ]
@@ -54,6 +56,8 @@ ROOT_URLCONF = 'core.urls'
 LOGIN_REDIRECT_URL = "home"  # Route defined in home/urls.py
 LOGOUT_REDIRECT_URL = "home"  # Route defined in home/urls.py
 TEMPLATE_DIR = os.path.join(CORE_DIR, "apps/templates")  # ROOT dir for templates
+# New user model
+AUTH_USER_MODEL = "accounts.CustomUser"
 
 TEMPLATES = [
     {

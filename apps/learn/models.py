@@ -1,10 +1,10 @@
 import os.path
 from django.db import models
-from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.urls import reverse
 import apps.containers.models as containers
+from apps.accounts.models import CustomUser
 
 
 def total_lessons_completed(user, exploit_type):
@@ -69,7 +69,7 @@ class Lesson(models.Model):
                                      related_name='lesson_exploit_type',
                                      on_delete=models.SET_NULL,
                                      null=True)
-    owner = models.ForeignKey(User,
+    owner = models.ForeignKey(CustomUser,
                               related_name='lesson_created',
                               on_delete=models.SET_NULL,
                               null=True)
@@ -155,7 +155,7 @@ class Content(models.Model):
 
 
 class ItemBase(models.Model):
-    owner = models.ForeignKey(User,
+    owner = models.ForeignKey(CustomUser,
                               related_name='%(class)s_related',
                               on_delete=models.CASCADE)
     title = models.CharField(max_length=250)
@@ -231,7 +231,7 @@ class Video(ItemBase):
 
 
 class CompletedLesson(models.Model):
-    user = models.ForeignKey(User,
+    user = models.ForeignKey(CustomUser,
                              on_delete=models.CASCADE)
     lesson = models.ForeignKey(Lesson,
                                on_delete=models.CASCADE)

@@ -1,6 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import User
-from apps.learn.models import ExploitType, Lesson
+import apps.accounts.models as accounts
+# from apps.learn.models import ExploitType, Lesson
+import apps.learn.models as learn
 import datetime
 
 
@@ -37,12 +38,12 @@ class Image(models.Model):
     # By default, we want the containers to remove itself on close
     rm_flag = models.BooleanField(default=True)
     # Exploit type of the container
-    exploit_type = models.ForeignKey(ExploitType,
+    exploit_type = models.ForeignKey(learn.ExploitType,
                                      related_name='exploit_type',
                                      on_delete=models.CASCADE,
                                      null=True)
     # A lesson that should be completed before the container
-    pre_lesson = models.ForeignKey(Lesson,
+    pre_lesson = models.ForeignKey(learn.Lesson,
                                    related_name='lesson',
                                    on_delete=models.CASCADE,
                                    null=True)
@@ -105,7 +106,7 @@ class Container(models.Model):
         return self.container_image.exposed_ports
 
     # The person who ran the containers
-    owner_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner_id = models.ForeignKey(accounts.CustomUser, on_delete=models.CASCADE)
     # The image that the container uses
     container_image = models.ForeignKey(Image, on_delete=models.CASCADE)
     # The container ID once it has been created, having issues with naming it 'container_id' so it's named slug
@@ -123,16 +124,8 @@ class Container(models.Model):
         super(Container, self).save(*args, **kwargs)
 
 
-def points_for(user):
-    points = 0
-    completed = CompletedImage.objects.filter(user=user, completed=True)
-    for image in completed:
-        points += image.image.point_reward
-    return points
-
-
 class CompletedImage(models.Model):
-    user = models.ForeignKey(User,
+    user = models.ForeignKey(accounts.CustomUser,
                              on_delete=models.CASCADE)
     image = models.ForeignKey(Image, on_delete=models.CASCADE)
     completed = models.BooleanField(default=False)
@@ -141,3 +134,11 @@ class CompletedImage(models.Model):
     # @property
     # def completed(self) -> bool:
     #     return self.completed
+
+
+def points_for(user):
+    points = 0
+    completed = CompletedImage.objects.filter(user=user, completed=True)
+    for image in completed:
+        points += image.image.point_reward
+    return points

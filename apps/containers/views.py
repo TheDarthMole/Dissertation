@@ -14,7 +14,7 @@ from django.template import loader
 from django.urls import reverse
 from django.views.generic import DetailView
 
-from apps.containers.models import Container, Image
+from apps.containers.models import Container, Image, CompletedImage
 
 
 def randomword(length):
@@ -183,8 +183,10 @@ def submit_challenge(request):
         if failures == 0:
             # Success! They fixed the issue
             messages.add_message(request, messages.SUCCESS, f"Well done! You completed {container.container_image}!")
-            # @TODO: Add score here, as container is successfully completed
+
             container.delete()
+            # If the user has completed previously, the update it, else add the new completed image
+            CompletedImage.objects.update_or_create(user=request.user, image=image_obj, completed=True)
             return redirect('challenges')
         else:
             # There were errors!
