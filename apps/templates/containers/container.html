@@ -43,10 +43,16 @@
                     <div class="card-header">
                         <h1 class="mb-0">{{ container }}</h1>
                     </div>
-
                     <div class="card-body">
+                        {#                        {% for text in container.container_image.detailed_description|cut:'\n' %}#}
 
+
+                        {#                        {% endfor %}#}
+                        <pre>
+{{ container.container_image.detailed_description }}
+                        </pre>
                     </div>
+
 
                 </div>
             </div>

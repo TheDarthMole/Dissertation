@@ -58,10 +58,10 @@
                             </thead>
                             <tbody class="list">
 {#                          Users populated here #}
-
+                            {% for user in users %}
                             <tr>
                                 <th scope="row">
-                                    Placeholder
+                                    rankNo
                                 </th>
                                 <td class="budget">
                                     <div class="media align-items-center">
@@ -70,7 +70,7 @@
                                             <img alt="Image placeholder" src="/static/assets/img/theme/team-4.jpg">
                                         </a>
                                         <div class="media-body">
-                                            <span class="name mb-0 text-sm">Argon Design System</span>
+                                            <span class="name mb-0 text-sm">{{ user}}</span>
                                         </div>
                                     </div>
                                 </td>
@@ -112,7 +112,7 @@
                                     </div>
                                 </td>
                             </tr>
-
+                            {% endfor %}
                             </tbody>
                         </table>
                     </div>

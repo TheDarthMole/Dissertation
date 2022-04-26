@@ -46,13 +46,13 @@ class Image(models.Model):
                                    related_name='lesson',
                                    on_delete=models.CASCADE,
                                    null=True)
-
+    # The amount of points gained by completing this challenge
     point_reward = models.IntegerField(default=0)
-
     # the code for the container that the users can edit, this is pulled into the Container instance
     code = models.TextField(null=True, blank=True)
     command = models.TextField(default="mvn test")
     file_location = models.TextField(null=True, blank=True)
+    detailed_description = models.TextField(default="")
 
     def completed_by(self, user):
         result = CompletedImage.objects.filter(image=self, user=user)
@@ -109,12 +109,11 @@ class Container(models.Model):
     # The image that the container uses
     container_image = models.ForeignKey(Image, on_delete=models.CASCADE)
     # The container ID once it has been created, having issues with naming it 'container_id' so it's named slug
-    slug = models.SlugField(max_length=16, unique=True, default='0'*16)
+    slug = models.SlugField(max_length=16, unique=True, default='0' * 16)
     # When the container was created
     start_time = models.DateTimeField(default=datetime.datetime.utcnow, blank=True)
     # The base64 encoded code for the container
     code = models.TextField(null=True, blank=True)
-
 
     # Override the save method so that we force the creation of the code field, pulling from Image.code
     def save(self, *args, **kwargs):
@@ -122,6 +121,14 @@ class Container(models.Model):
             self.code = self.container_image.code
 
         super(Container, self).save(*args, **kwargs)
+
+
+def points_for(user):
+    points = 0
+    completed = CompletedImage.objects.filter(user=user, completed=True)
+    for image in completed:
+        points += image.image.point_reward
+    return points
 
 
 class CompletedImage(models.Model):
