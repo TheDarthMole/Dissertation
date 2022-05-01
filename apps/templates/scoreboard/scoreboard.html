@@ -50,7 +50,8 @@
                                 <th scope="col" class="sort" data-sort="rank">Rank</th>
                                 <th scope="col" class="sort" data-sort="player">Player</th>
                                 <th scope="col" class="sort" data-sort="points">Points</th>
-                                <th scope="col" class="sort" data-sort="recent">Most Recent</th>
+                                <th scope="col" class="sort" data-sort="recent">Most Recent Lesson</th>
+                                <th scope="col" class="sort" data-sort="recent">Most Recent Challenge</th>
                                 <th scope="col" class="sort" data-sort="lesson-completions">Lesson Completions</th>
                                 <th scope="col" class="sort" data-sort="challenge-completions">Challenge Completions</th>
                                 <th scope="col"></th>
@@ -81,7 +82,10 @@
                                     </span>
                                 </td>
                                 <td>
-                                    Sample
+                                    {{ user.last_completed_lesson }}
+                                </td>
+                                <td>
+                                    {{ user.last_completed_challenge }}
                                 </td>
                                 <td>
                                     <div class="d-flex align-items-center">

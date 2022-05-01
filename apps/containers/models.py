@@ -130,6 +130,10 @@ class CompletedImage(models.Model):
     image = models.ForeignKey(Image, on_delete=models.CASCADE)
     completed = models.BooleanField(default=False)
 
+    @classmethod
+    def last_challenge_completed_by(cls, user):
+        return CompletedImage.objects.filter(user=user).last()
+
     # TODO: Expand this to be dynamic to the content completed in future
     # @property
     # def completed(self) -> bool:

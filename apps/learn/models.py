@@ -1,8 +1,10 @@
 import os.path
-from django.db import models
-from django.contrib.contenttypes.models import ContentType
+
 from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
+from django.db import models
 from django.urls import reverse
+
 import apps.containers.models as containers
 from apps.accounts.models import CustomUser
 
@@ -236,3 +238,7 @@ class CompletedLesson(models.Model):
     lesson = models.ForeignKey(Lesson,
                                on_delete=models.CASCADE)
     completed = models.BooleanField(default=False)
+
+    @classmethod
+    def last_lesson_completed_by(cls, user):
+        return CompletedLesson.objects.filter(user=user).last()
