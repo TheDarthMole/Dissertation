@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.example</groupId>
+    <artifactId>FileReader</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <version.java>17</version.java>
+        <mainclass>FileReader</mainclass>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <version.junit>5.6.0</version.junit>
+        <version.maven-compiler-plugin>3.8.1</version.maven-compiler-plugin>
+        <version.maven-resources-plugin>3.2.0</version.maven-resources-plugin>
+        <version.maven-surefire-plugin>3.0.0-M5</version.maven-surefire-plugin>
+        <version.maven-failsafe-plugin>3.0.0-M5</version.maven-failsafe-plugin>
+        <version.exec-maven-plugin>3.0.0</version.exec-maven-plugin>
+    </properties>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${version.junit}</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </testResource>
+        </testResources>
+
+
+        <plugins>
+            <!-- Plug-in used to compile the sources of your project. Java 9 requires
+                at least version 3.7.0 to properly handle modules. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${version.maven-compiler-plugin}</version>
+                <configuration>
+                    <release>${version.java}</release>
+                </configuration>
+            </plugin>
+            <!-- The Resources plug-in handles the copying of project resources to the output directory. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>${version.maven-resources-plugin}</version>
+                <configuration>
+                    <nonFilteredFileExtensions>
+                        <nonFilteredFileExtension>jks</nonFilteredFileExtension>
+                    </nonFilteredFileExtensions>
+                </configuration>
+            </plugin>
+            <!-- The Surefire plug-in runs unit tests. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${version.maven-surefire-plugin}</version>
+            </plugin>
+            <!-- The Failsafe plug-in runs integration tests. -->
+            <plugin>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${version.maven-failsafe-plugin}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- The Exec plug-in allows us to execute system and Java programs. -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>${version.exec-maven-plugin}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <mainClass>${mainclass}</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

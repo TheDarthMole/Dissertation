@@ -6,4 +6,10 @@ services:
     build:
       context: Dockerfiles
       dockerfile: Sample.Dockerfile
+
+  lfi1:
+    image: lfi1_fileread
+    build:
+      context: Dockerfiles
+      dockerfile: LFI1.Dockerfile
     
