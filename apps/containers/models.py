@@ -55,6 +55,10 @@ class Image(models.Model):
     file_location = models.TextField(null=True, blank=True)
     detailed_description = models.TextField(default="")
 
+    @classmethod
+    def total_images(cls):
+        return Image.objects.count()
+
     def completed_by(self, user):
         result = CompletedImage.objects.filter(image=self, user=user)
         if len(result) == 0:
@@ -133,6 +137,10 @@ class CompletedImage(models.Model):
     @classmethod
     def last_challenge_completed_by(cls, user):
         return CompletedImage.objects.filter(user=user).last()
+
+    @classmethod
+    def num_completed_challenges(cls, user):
+        return CompletedImage.objects.filter(user=user, completed=True).count()
 
     # TODO: Expand this to be dynamic to the content completed in future
     # @property

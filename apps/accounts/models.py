@@ -4,6 +4,11 @@ from django.contrib.auth.models import AbstractUser
 class CustomUser(AbstractUser):
 
     @property
+    def total_completion(self):
+        from apps.progression.models import user_total_progress
+        return user_total_progress(self)
+
+    @property
     def points(self):
         # Importing here is a bit dirty, but it fixes a circular import
         import apps.containers.models as containers

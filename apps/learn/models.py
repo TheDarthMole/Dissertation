@@ -114,6 +114,10 @@ class Lesson(models.Model):
             return True
         return False
 
+    @classmethod
+    def total_lessons(cls):
+        return Lesson.objects.count()
+
 
 class Content(models.Model):
     lesson = models.ForeignKey(Lesson,
@@ -238,6 +242,10 @@ class CompletedLesson(models.Model):
     lesson = models.ForeignKey(Lesson,
                                on_delete=models.CASCADE)
     completed = models.BooleanField(default=False)
+
+    @classmethod
+    def num_completed_lessons(cls, user):
+        return CompletedLesson.objects.filter(user=user, completed=True).count()
 
     @classmethod
     def last_lesson_completed_by(cls, user):

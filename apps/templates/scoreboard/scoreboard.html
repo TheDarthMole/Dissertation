@@ -52,17 +52,17 @@
                                 <th scope="col" class="sort" data-sort="points">Points</th>
                                 <th scope="col" class="sort" data-sort="recent">Most Recent Lesson</th>
                                 <th scope="col" class="sort" data-sort="recent">Most Recent Challenge</th>
-                                <th scope="col" class="sort" data-sort="lesson-completions">Lesson Completions</th>
-                                <th scope="col" class="sort" data-sort="challenge-completions">Challenge Completions</th>
-                                <th scope="col"></th>
+                                <th scope="col" class="sort" data-sort="lesson-completions">Completion</th>
                             </tr>
                             </thead>
                             <tbody class="list">
-{#                          Users populated here #}
+
+                            {# Users populated here #}
+
                             {% for user in users %}
                             <tr>
                                 <th scope="row">
-                                    rankNo
+                                    {{ user.leaderboard }}
                                 </th>
                                 <td class="budget">
                                     <div class="media align-items-center">
@@ -89,32 +89,32 @@
                                 </td>
                                 <td>
                                     <div class="d-flex align-items-center">
-                                        <span class="completion mr-2">60%</span>
+                                        <span class="completion mr-2">{{ user.total_completion }}%</span>
                                         <div>
                                             <div class="progress">
                                                 <div class="progress-bar bg-warning" role="progressbar"
-                                                     aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
-                                                     style="width: 60%;"></div>
+                                                     aria-valuenow="{{ user.total_completion }}" aria-valuemin="0" aria-valuemax="100"
+                                                     style="width: {{ user.total_completion }}%;"></div>
                                             </div>
                                         </div>
                                     </div>
                                 </td>
-                                <td>
-                                    ayee
-                                </td>
-                                <td class="text-right">
-                                    <div class="dropdown">
-                                        <a class="btn btn-sm btn-icon-only text-light" href="#" role="button"
-                                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
-                                </td>
+{#                                <td>#}
+{#                                    ayee#}
+{#                                </td>#}
+{#                                <td class="text-right">#}
+{#                                    <div class="dropdown">#}
+{#                                        <a class="btn btn-sm btn-icon-only text-light" href="#" role="button"#}
+{#                                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
+{#                                            <i class="fas fa-ellipsis-v"></i>#}
+{#                                        </a>#}
+{#                                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">#}
+{#                                            <a class="dropdown-item" href="#">Action</a>#}
+{#                                            <a class="dropdown-item" href="#">Another action</a>#}
+{#                                            <a class="dropdown-item" href="#">Something else here</a>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </td>#}
                             </tr>
                             {% endfor %}
                             </tbody>
