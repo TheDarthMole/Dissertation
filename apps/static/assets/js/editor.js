@@ -1,25 +1,35 @@
 import {EditorState, EditorView, basicSetup} from "@codemirror/basic-setup"
 import {java} from "@codemirror/lang-java"
+import {Compartment} from "@codemirror/state"
+import {keymap} from "@codemirror/view"
+import {indentWithTab} from "@codemirror/commands"
+import {CompletionContext, autocompletion} from "@codemirror/autocomplete"
+
 
 const editor_element = document.getElementById('editor');
-
 // Convert from base64
 const original_code = atob(editor_element.textContent);
 editor_element.textContent = '';
+let tabSize = new Compartment
 
+
+let state = EditorState.create({
+    extensions: [
+        basicSetup,
+        java(),
+        keymap.of([indentWithTab]),
+        autocompletion(), // This doesn't work?
+        // tabSize.of(EditorState.tabSize.of(4))
+    ],
+    tabSize: 8,
+    doc: original_code
+})
 
 let editor = new EditorView({
-    state: EditorState.create({
-        extensions: [
-            basicSetup,
-            java(),
-
-        ],
-        tabSize: 4,
-        doc: original_code
-    }),
+    state: state,
     parent: editor_element
 })
+
 
 editor_element.removeAttribute("hidden");
 
