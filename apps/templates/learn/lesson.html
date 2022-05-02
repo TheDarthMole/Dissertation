@@ -2,6 +2,7 @@
 {% load container_extras %}
 {% load sizify %}
 {% load progression_filters %}
+{% load markdown %}
 
 {% block title %} Tables {% endblock title %}
 
@@ -47,44 +48,15 @@
                         <h1 class="mb-0"> {{ object.title }}</h1>
                     </div>
 
-
                     <div class="card-body">
-                        {% for item in object.content %}
-                            {#                        TODO: Make admin panel for adding content #}
-                            {% if item.is_text %}
-                                <h2>{{ item.item.title }}</h2>
-                                <p>{{ item.item.text_content }}</p>
-
-                            {% elif item.is_image %}
-                                <img src="{{ item.item.get_absolute_url }}"/>
-
-                            {% elif item.is_video %}
-                                <h2>{{ item.item.title }}</h2>
-                                <iframe width="720" height="480" src="{{ item.item.youtube_embed }}"
-                                        title="YouTube video player" frameborder="0"
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                        allowfullscreen></iframe>
-
-                            {% elif item.is_file %}
-                                <div class="row">
-                                    <a href="{{ item.item.get_absolute_url }}">
-                                        <div class="icon icon-shape bg-info text-white rounded-circle shadow">
-                                            <i class="ni ni-cloud-download-95"></i>
-                                        </div>
-                                        <span class="text-nowrap">{{ item.item.title }} ({{ item.item.file_name }}) {{ item.item.file_size|sizify }}</span>
-                                    </a>
-                                </div>
-
-                            {% endif %}
-
-                        {% endfor %}
+                        <p>{{ object.content | markdown | safe }}</p>
                     </div>
                 </div>
 
                 {% if object|completed_by:request.user %}
-                    <a class="btn btn-info">Lesson already completed!</a>
+                    <a class="btn btn-info mb-5">Lesson already completed!</a>
                 {% else %}
-                    <a href="{% url 'complete_lesson' object.slug %}" class="btn btn-success">Complete lesson</a>
+                    <a href="{% url 'complete_lesson' object.slug %}" class="btn btn-success mb-5" >Complete lesson</a>
                 {% endif %}
             </div>
         </div>
