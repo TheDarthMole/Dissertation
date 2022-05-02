@@ -17,7 +17,7 @@ public class FileReader {
      */
     public String readFile() throws FileNotFoundException {
         // Only read from files directly within the assets directory
-        String prefix = "./assets/";
+        String prefix = "assets/";
 
         File file = new File(prefix + fileName);
         StringBuilder retValue = new StringBuilder();
