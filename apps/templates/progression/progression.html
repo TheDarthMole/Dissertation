@@ -74,7 +74,13 @@
                                                 </a>
                                                 <div class="mt-3">
                                                     {% for image in lesson.get_containers %}
-                                                        <span class="badge badge-pill badge-{% if image|completed_by:request.user %}success{% else %}warning{% endif %}">{{ image }} - {{ image.image }}:{{ image.tag }}</span>
+                                                        <a>
+                                                            <span class="badge badge-pill badge-{% if image|completed_by:request.user %}success{% else %}warning{% endif %}">
+                                                                {{ image }} - {{ image.image }}:{{ image.tag }}
+                                                            </span>
+                                                        </a>
+
+
                                                     {% endfor %}
                                                 </div>
                                             </div>

@@ -166,7 +166,13 @@ def submit_challenge(request):
 
         logs = str(docker_container, 'utf8')
 
-        # print("logs: " + logs)
+        if "COMPILATION ERROR" in logs:
+            messages.add_message(request, messages.ERROR,
+                                 f"Your code failed to compile!")
+            # @TODO make the error message more useful!
+            return redirect('challenge_view', slug=container.slug)
+
+        print("logs: " + logs)
 
         start_index = logs.rfind("Tests run:")
         end_index = logs.find("\n", start_index)
