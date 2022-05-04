@@ -183,7 +183,7 @@
 
 
                             {% for image in images %}
-                                <tr>
+                                <tr id="{{ image.image_name|slugify }}">
                                     <th scope="row">
                                         <div class="media align-items-center">
                                             <a href="#" class="avatar rounded-circle mr-3">
