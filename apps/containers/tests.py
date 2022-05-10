@@ -54,47 +54,28 @@ class ContainerTestCase(TestCase):
                                               container_image=self.test_challenge)
         self.assertEqual(len(containers), 1)
 
-    def test_challenge_submit_fail(self):
-        data = self.client.post("/challenges/start", {"imageID": str(self.test_challenge.id)})
-        container = Container.objects.filter(owner_id=self.user.id,
-                                             container_image=self.test_challenge
-                                             ).first()
-        self.assertIsNotNone(container)
-        data = self.client.post("/challenges/submit", {"form_b64_code": code_base64,
-                                                       "form_container": container.slug})
-
-        self.assertEqual(data.status_code, http.HTTPStatus.FOUND)
-        self.assertIn(data.headers.get("Location"), f"/challenge/{container.slug}")
-
-        data1 = self.client.get(data.headers.get("Location"))
-        self.assertContains(data1, "Your code did not pass the inspection. There are 1 JUnit failures for File Reader!")
-
-    def test_challenge_submit_pass(self):
-        data = self.client.post("/challenges/start", {"imageID": str(self.test_challenge.id)})
-        container = Container.objects.filter(owner_id=self.user.id,
-                                             container_image=self.test_challenge
-                                             ).first()
-        self.assertIsNotNone(container)
-        data = self.client.post("/challenges/submit", {"form_b64_code": code_fixed,
-                                                       "form_container": container.slug})
-
-        self.assertEqual(data.status_code, http.HTTPStatus.FOUND)
-        self.assertIn(data.headers.get("Location"), "/challenges")
-
-        data1 = self.client.get(data.headers.get("Location"))
-        self.assertContains(data1, "Well done! You completed File Reader!")
-
-    def challenge_test(self, challenge, http_status_code, redirect_url, alert_message):
+    def challenge_test(self, challenge, http_status_code, code_snippet, redirect_url, alert_message):
         data = self.client.post("/challenges/start", {"imageID": str(self.test_challenge.id)})
         container = Container.objects.filter(owner_id=self.user.id,
                                              container_image=challenge
                                              ).first()
         self.assertIsNotNone(container)
-        data = self.client.post("/challenges/submit", {"form_b64_code": code_fixed,
+        data = self.client.post("/challenges/submit", {"form_b64_code": code_snippet,
                                                        "form_container": container.slug})
 
         self.assertEqual(data.status_code, http_status_code)
-        self.assertIn(data.headers.get("Location"), redirect_url)
+        self.assertIn(redirect_url, data.headers.get("Location"))
 
         data1 = self.client.get(data.headers.get("Location"))
         self.assertContains(data1, alert_message)
+
+    def test_challenge_submit_fail(self):
+        self.challenge_test(self.test_challenge, http.HTTPStatus.FOUND, code_base64,
+                            "/challenge/", "Your code did not pass the inspection. There are 1 JUnit failures for "
+                                           "File Reader!")
+
+    def test_challenge_submit_pass(self):
+        self.challenge_test(self.test_challenge, http.HTTPStatus.FOUND, code_fixed,
+                            "/challenges", "Well done! You completed File Reader!")
+
+

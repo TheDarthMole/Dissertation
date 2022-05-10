@@ -172,7 +172,7 @@ def submit_challenge(request):
             # @TODO make the error message more useful!
             return redirect('challenge_view', slug=container.slug)
 
-        print("logs: " + logs)
+        # print("logs: " + logs)
 
         start_index = logs.rfind("Tests run:")
         end_index = logs.find("\n", start_index)
