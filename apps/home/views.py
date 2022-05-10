@@ -9,10 +9,17 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse
 
+from apps.accounts.models import CustomUser
+from apps.containers.models import CompletedImage, Image
+from apps.learn.models import CompletedLesson
 
 @login_required(login_url="/login/")
 def index(request):
-    context = {'segment': 'index'}
+    context = {'segment': 'index',
+               'total_container_completions': CompletedImage.objects.filter(completed=True).count(),
+               'total_images': Image.objects.count(),
+               'total_lesson_completions': CompletedLesson.objects.filter(completed=True).count(),
+               'total_users': CustomUser.objects.count()}
 
     html_template = loader.get_template('home/index.html')
     return HttpResponse(html_template.render(context, request))
