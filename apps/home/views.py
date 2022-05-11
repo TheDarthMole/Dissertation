@@ -5,13 +5,14 @@ Copyright (c) 2019 - present AppSeed.us
 
 from django import template
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.template import loader
 from django.urls import reverse
 
 from apps.accounts.models import CustomUser
 from apps.containers.models import CompletedImage, Image
 from apps.learn.models import CompletedLesson
+
 
 @login_required(login_url="/login/")
 def index(request):
@@ -52,8 +53,8 @@ def pages(request):
     except template.TemplateDoesNotExist:
 
         html_template = loader.get_template('home/page-404.html')
-        return HttpResponse(html_template.render(context, request))
+        return HttpResponse(html_template.render(context, request), status=404)
 
     except:
         html_template = loader.get_template('home/page-500.html')
-        return HttpResponse(html_template.render(context, request))
+        return HttpResponse(html_template.render(context, request), status=500)
