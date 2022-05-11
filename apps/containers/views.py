@@ -52,8 +52,7 @@ def start(request):
             new_container.save()
 
         except ValueError as e:
-            print(e)
-            print("Oopa, something happened!")
+            print(f"Oopa, something happened! {e}")
 
     return redirect('challenge_view', slug=new_container.slug)
 
@@ -79,7 +78,7 @@ def remove_broken_containers():
                 try:
                     container_docker.remove(force=True, v=True)
                 except docker.errors.APIError:
-                    print("There was an error stopping & removing the container: " + container_docker.id)
+                    print(f"There was an error stopping & removing the container: {container_docker.id}")
 
 
 @login_required(login_url="/login/")
@@ -110,7 +109,7 @@ def stop(request, slug):
         valid_container.delete()
 
     except docker.errors.APIError:
-        print("There was an error stopping & removing the container: " + docker_container.id)
+        print(f"There was an error stopping & removing the container: {docker_container.id}")
 
     return redirect(reverse("challenges"))
 
@@ -162,7 +161,7 @@ def submit_challenge(request):
         try:
             docker_container = docker_client.containers.run(image_obj.image, **kwargs)
         except Exception as e:
-            print(e)
+            print(f"An error occurred! {e}")
 
         logs = str(docker_container, 'utf8')
 
@@ -177,14 +176,13 @@ def submit_challenge(request):
         start_index = logs.rfind("Tests run:")
         end_index = logs.find("\n", start_index)
         results = logs[start_index:end_index]
-        print(results)
         split = results.split(": ")
 
         runs = int(split[1].split(",")[0])
         failures = int(split[2].split(",")[0])
         skipped = int(split[3].split(",")[0])
 
-        print(f"Runs: {runs}, Failures: {failures}, Skipped: {skipped}")
+        # print(f"Runs: {runs}, Failures: {failures}, Skipped: {skipped}")
 
         if failures == 0:
             # Success! They fixed the issue
