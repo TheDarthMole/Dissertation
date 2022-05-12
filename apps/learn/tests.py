@@ -12,8 +12,11 @@ class LearnTestCase(TestCase):
             'username': 'test_user',
             'password': 'wwGx5ZSZS3jNBvByqECx6H2pWSkqB39Z'
         }
-        self.client = Client()
         user_model = get_user_model()
+        self.user = user_model.objects.create_user(credentials['username'], 'test@example.com', credentials['password'])
+        self.client = Client()
+        self.client.login(**credentials)
+
         self.test_exploit = ExploitType(title="example exploit",
                                         slug="example_exploit")
         self.test_exploit.save()
@@ -25,9 +28,6 @@ class LearnTestCase(TestCase):
                              difficulty=Difficulty.normal,
                              content="# H1 Content\n\n## H2 Content\n\nThis is more content")
         self.lesson.save()
-
-        self.user = user_model.objects.create_user(credentials['username'], 'test@example.com', credentials['password'])
-        self.client.login(**credentials)
 
     def test_lessons_exist(self):
         data = self.client.get("/learn")
@@ -60,4 +60,3 @@ class LearnTestCase(TestCase):
         # Make sure lesson is completed
         data2 = self.client.get(f"/lesson/{self.lesson.slug}")
         self.assertContains(data2, "Lesson already completed!")
-
