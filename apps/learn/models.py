@@ -1,6 +1,3 @@
-import os.path
-
-from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.urls import reverse
@@ -9,15 +6,7 @@ import apps.containers.models as containers
 from apps.accounts.models import CustomUser
 
 
-def total_lessons_completed(user, exploit_type):
-    lessons = Lesson.objects.filter(exploit_type=exploit_type)
-    lesson_count = 0
 
-    for lesson in lessons:
-        if lesson.completed_by(user):
-            lesson_count += 1
-
-    return lesson_count, len(lessons)
 
 
 class Difficulty:
@@ -88,6 +77,17 @@ class Lesson(models.Model):
 
     def __str__(self):
         return self.title
+
+    @classmethod
+    def total_lessons_completed(cls, user, exploit_type):
+        lessons = Lesson.objects.filter(exploit_type=exploit_type)
+        lesson_count = 0
+
+        for lesson in lessons:
+            if lesson.completed_by(user):
+                lesson_count += 1
+
+        return lesson_count, len(lessons)
 
     def get_absolute_url(self):
         return reverse('lesson_detail', args=[str(self.slug)])

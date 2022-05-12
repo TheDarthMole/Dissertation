@@ -5,8 +5,8 @@ class CustomUser(AbstractUser):
 
     @property
     def total_completion(self):
-        from apps.progression.models import user_total_progress
-        return user_total_progress(self)
+        from apps.progression.models import Progression
+        return Progression.user_total_progress(self)
 
     @property
     def points(self):

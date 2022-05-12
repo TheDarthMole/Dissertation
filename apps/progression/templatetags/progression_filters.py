@@ -1,5 +1,5 @@
 from django import template
-from apps.progression.models import user_progress_percentage
+from apps.progression.models import Progression
 register = template.Library()
 
 
@@ -10,4 +10,4 @@ def completed_by(obj, user):
 
 @register.filter
 def progress_percentage(user, exploit_type):
-    return user_progress_percentage(user, exploit_type)
+    return Progression.user_progress_percentage(user, exploit_type)
