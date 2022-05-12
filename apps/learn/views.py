@@ -3,9 +3,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse
-from django.shortcuts import redirect, render
 from apps.learn.models import Lesson, ExploitType, CompletedLesson
-from django.views.generic import ListView, DetailView
+from django.views.generic import DetailView
 from django.shortcuts import get_object_or_404
 
 
