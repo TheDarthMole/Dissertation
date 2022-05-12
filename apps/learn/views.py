@@ -18,13 +18,6 @@ def learn(request):
 
 
 @login_required(login_url="/login/")
-def lesson(request):
-    context = {}  # {'lesson': Lesson}
-    html_template = loader.get_template('learn/lesson.html')
-    return HttpResponse(html_template.render(context, request))
-
-
-@login_required(login_url="/login/")
 def complete_lesson(request, slug):
     completed_lesson = get_object_or_404(Lesson, slug=slug)
     CompletedLesson.objects.create(user=request.user, lesson=completed_lesson, completed=True)
@@ -39,4 +32,3 @@ class LessonListView(LoginRequiredMixin, ListView):
 class LessonDetailedView(LoginRequiredMixin, DetailView):
     model = Lesson
     template_name = 'learn/lesson.html'
-
