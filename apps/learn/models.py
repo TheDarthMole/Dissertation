@@ -105,9 +105,7 @@ class Lesson(models.Model):
         if len(result) > 1:
             raise IndexError
 
-        if result[0].completed:
-            return True
-        return False
+        return result[0].completed
 
     @classmethod
     def total_lessons(cls):
