@@ -6,9 +6,6 @@ import apps.containers.models as containers
 from apps.accounts.models import CustomUser
 
 
-
-
-
 class Difficulty:
     difficulty_not_set = '0'
     very_easy = '1'
