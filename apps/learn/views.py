@@ -24,11 +24,6 @@ def complete_lesson(request, slug):
     return HttpResponseRedirect(reverse('learn'))
 
 
-class LessonListView(LoginRequiredMixin, ListView):
-    model = Lesson
-    template_name = 'learn/lessons.html'
-
-
 class LessonDetailedView(LoginRequiredMixin, DetailView):
     model = Lesson
     template_name = 'learn/lesson.html'
