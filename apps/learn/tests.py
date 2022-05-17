@@ -40,13 +40,13 @@ class LearnTestCase(TestCase):
 
     def test_lesson_contains_lesson(self):
         data = self.client.get(f"/lesson/{self.lesson.slug}")
-        self.assertContains(data, "H1 Content")
-        self.assertContains(data, "H2 Content")
-        self.assertContains(data, "This is more content")
+        self.assertContains(data, "<h1>H1 Content</h1>")
+        self.assertContains(data, "<h2>H2 Content</h2>")
+        self.assertContains(data, "<p>This is more content</p>")
 
     def test_lessons_contains_exploits(self):
         data = self.client.get("/learn")
-        self.assertContains(data, self.lesson.exploit_type)
+        self.assertContains(data, self.lesson.exploit_type.title)
 
     def test_lesson_complete(self):
         # Check lesson isn't completed already
