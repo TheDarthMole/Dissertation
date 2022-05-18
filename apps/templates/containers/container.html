@@ -1,5 +1,6 @@
 {% extends 'layouts/base.html' %}
 {% load container_extras %}
+{% load markdown %}
 
 {% block stylesheets %}
 {% endblock stylesheets %}
@@ -44,9 +45,8 @@
                         <h1 class="mb-0">{{ container }}</h1>
                     </div>
                     <div class="card-body">
-                        <pre>
-{{ container.container_image.detailed_description }}
-                        </pre>
+                        {# Render the description using markdown #}
+                        {{ container.container_image.detailed_description | markdown | safe }}
                     </div>
 
 
