@@ -116,8 +116,17 @@ def stop(request, slug):
 
 class ContainerDetailedView(LoginRequiredMixin, DetailView):
     model = Container
+    segment = {}
 
     template_name = 'containers/container.html'
+
+    # override context data so that we can set segment as containers
+    def get_context_data(self, *args, **kwargs):
+        context = super(ContainerDetailedView,
+                        self).get_context_data(*args, **kwargs)
+        # add extra field
+        context["segment"] = "containers"
+        return context
 
 
 @login_required(login_url="/login/")
