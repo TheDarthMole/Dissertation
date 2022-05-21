@@ -1,3 +1,4 @@
+import django
 from django.db import models
 import apps.accounts.models as accounts
 # from apps.learn.models import ExploitType, Lesson
@@ -85,7 +86,7 @@ class Container(models.Model):
 
     @property
     def duration(self):  # Show the remaining duration in seconds
-        now = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc)
+        now = django.utils.timezone.now()
         diff = (now - self.start_time).seconds
         return self.container_image.duration - diff
 
@@ -120,7 +121,7 @@ class Container(models.Model):
     # The container ID once it has been created, having issues with naming it 'container_id' so it's named slug
     slug = models.SlugField(max_length=16, unique=True, default='0' * 16)
     # When the container was created
-    start_time = models.DateTimeField(default=datetime_utc, blank=True)
+    start_time = models.DateTimeField(default=django.utils.timezone.now, blank=True)
     # The base64 encoded code for the container
     code = models.TextField(null=True, blank=True)
 
