@@ -63,6 +63,8 @@ class ContainerTestCase(TestCase):
         self.assertContains(data1, "<h1>Test challenge</h1>")
         self.assertContains(data1, "<h2>SubHeading</h2>")
         self.assertContains(data1, "<p>Can you find the vulnerability in the file reader??</p>")
+        # The code is in base64 before it is decoded
+        self.assertContains(data1, code_base64)
 
     def challenge_test(self, challenge, http_status_code, code_snippet, redirect_url, alert_message):
         data = self.client.post("/challenges/start", {"imageID": str(self.test_challenge.id)})
