@@ -1,4 +1,3 @@
-from time import sleep
 import docker
 import json
 import random
@@ -35,7 +34,6 @@ def containers(request):
 def start(request):
     if request.method == 'POST':
 
-        client = docker.from_env()
         try:
             image_id = int(request.POST.get('imageID', ''))
             image_obj = Image.objects.filter(id=image_id)
@@ -50,11 +48,19 @@ def start(request):
                                       slug=randomword(16))
 
             new_container.save()
+            return redirect('challenge_view', slug=new_container.slug)
 
         except ValueError as e:
             print(f"Oopa, something happened! {e}")
 
-    return redirect('challenge_view', slug=new_container.slug)
+    else:
+        html_template = loader.get_template('home/page-500.html')
+        context = {}
+        return HttpResponse(html_template.render(context, request), status=500)
+
+    messages.add_message(request, messages.ERROR,
+                         f"Failed to start the challenge.")
+    return redirect('challenges')
 
 
 def remove_broken_containers():
