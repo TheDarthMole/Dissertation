@@ -16,6 +16,10 @@ def total_images_completed(user, exploit_type):
     return image_count, len(images)
 
 
+def datetime_utc():
+    return datetime.datetime.now(datetime.timezone.utc)
+
+
 class Image(models.Model):
 
     def __str__(self):
@@ -116,7 +120,7 @@ class Container(models.Model):
     # The container ID once it has been created, having issues with naming it 'container_id' so it's named slug
     slug = models.SlugField(max_length=16, unique=True, default='0' * 16)
     # When the container was created
-    start_time = models.DateTimeField(default=lambda: datetime.datetime.now(datetime.timezone.utc), blank=True)
+    start_time = models.DateTimeField(default=datetime_utc, blank=True)
     # The base64 encoded code for the container
     code = models.TextField(null=True, blank=True)
 
