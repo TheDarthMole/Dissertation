@@ -1,10 +1,12 @@
 version: '3.8'
 services:
-  appseed-app:
+  patch-it:
     container_name: dissertation-app
     restart: always
     env_file: .env
     build: .
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - db_network
       - web_network
@@ -19,7 +21,7 @@ services:
     networks:
       - web_network
     depends_on: 
-      - dissertation-app
+      - patch-it
 networks:
   db_network:
     driver: bridge
