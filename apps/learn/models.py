@@ -1,3 +1,4 @@
+import django
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.urls import reverse
@@ -62,7 +63,7 @@ class Lesson(models.Model):
                               on_delete=models.SET_NULL,
                               null=True)
     overview = models.TextField()
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(default=django.utils.timezone.now)
 
     difficulty = models.CharField(
         max_length=1,
