@@ -47,19 +47,20 @@ class ProgressionTest(TestCase):
         data = self.client.get("/progression")
         self.assertContains(data, self.test_challenge.image_name)
 
-    def test_original_completion_is_zero(self):
+    def completion_percentage(self, percentage):
         data = self.client.get("/progression")
-        self.assertContains(data, "0.0%")
+        self.assertContains(data, percentage)
+
+    def test_original_completion_is_zero(self):
+        self.completion_percentage("0.0%")
 
     def test_progression_works(self):
-        self.test_original_completion_is_zero()
-        new_lesson_completion = CompletedLesson(user=self.user, lesson=self.lesson,
-                                                completed=True)
-        new_lesson_completion.save()
-        data = self.client.get("/progression")
-        self.assertContains(data, "50%")
-        new_challenge_completion = CompletedImage(user=self.user, image=self.test_challenge,
-                                                  completed=True)
-        new_challenge_completion.save()
-        data1 = self.client.get("/progression")
-        self.assertContains(data1, "100%")
+        self.completion_percentage("0.0%")
+        CompletedLesson(user=self.user, lesson=self.lesson,
+                        completed=True).save()
+
+        self.completion_percentage("50%")
+        CompletedImage(user=self.user, image=self.test_challenge,
+                       completed=True).save()
+
+        self.completion_percentage("100%")
