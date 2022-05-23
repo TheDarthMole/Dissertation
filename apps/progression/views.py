@@ -5,10 +5,8 @@ from apps.learn.models import ExploitType
 from apps.progression.models import Progression
 
 
-# Create your views here.
-
-def chunk_results(list, n):
-    return [list[i:i+n] for i in range(0, len(list), n)]
+def chunk_results(lst, n):
+    return [lst[i:i + n] for i in range(0, len(lst), n)]
 
 
 @login_required(login_url="/login/")
