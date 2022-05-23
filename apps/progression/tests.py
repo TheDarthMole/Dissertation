@@ -39,6 +39,10 @@ class ProgressionTest(TestCase):
                                     pre_lesson=self.lesson)
         self.test_challenge.save()
 
+    def test_progression_exists(self):
+        data = self.client.get("/progression")
+        self.assertEqual(data.status_code, http.HTTPStatus.OK)
+
     def test_contains_lesson(self):
         data = self.client.get("/progression")
         self.assertContains(data, self.lesson.title)
