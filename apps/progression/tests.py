@@ -52,15 +52,15 @@ class ProgressionTest(TestCase):
         self.assertContains(data, percentage)
 
     def test_original_completion_is_zero(self):
-        self.completion_percentage("0.0%")
+        self.completion_percentage("example exploit - 0.0%</h3>")
 
     def test_progression_works(self):
-        self.completion_percentage("0.0%")
+        self.completion_percentage("example exploit - 0.0%</h3>")
         CompletedLesson(user=self.user, lesson=self.lesson,
                         completed=True).save()
 
-        self.completion_percentage("50%")
+        self.completion_percentage("example exploit - 50.0%</h3>")
         CompletedImage(user=self.user, image=self.test_challenge,
                        completed=True).save()
 
-        self.completion_percentage("100%")
+        self.completion_percentage("example exploit - 100.0%</h3>")
