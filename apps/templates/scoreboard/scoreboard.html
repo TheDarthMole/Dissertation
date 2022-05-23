@@ -60,7 +60,7 @@
                             {# Users populated here #}
 
                             {% for user in users %}
-                            <tr>
+                            <tr id="user_{{ user.username|slugify }}">
                                 <th scope="row">
                                     {{ user.leaderboard }}
                                 </th>
