@@ -13,7 +13,7 @@ def scoreboard(request):
     # This is computationally expensive, as it's a recursive
     # call to a model query. Please excuse, done for rapid development
     # @TODO Improve efficiency
-    users = sorted(users, key=lambda m: m.points)
+    users = sorted(users, key=lambda m: m.points, reverse=True)
     count = 1
     for user in users:
         user.leaderboard = count
