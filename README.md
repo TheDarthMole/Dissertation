@@ -111,7 +111,7 @@ The application can be easily executed in a docker container. The steps:
 > Start the app in Docker
 
 ```bash
-$ sudo docker-compose pull && sudo docker-compose build && sudo docker-compose up -d
+$ sudo docker-compose up --build -d
 ```
 
 Visit `http://localhost:85` in your browser. The app should be up & running.
