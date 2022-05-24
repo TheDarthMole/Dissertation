@@ -1,9 +1,7 @@
-from django.test import TestCase
 from django.test import TestCase,  Client
 from django.contrib.auth import get_user_model
-from django.test.html import parse_html
 from apps.containers.models import Image, CompletedImage
-from apps.learn.models import ExploitType, Lesson, CompletedLesson
+from apps.learn.models import ExploitType, Lesson
 import http.client
 
 
