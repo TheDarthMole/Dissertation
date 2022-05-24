@@ -1,5 +1,7 @@
+import base64
+import datetime
+
 from django import template
-import datetime, base64
 
 register = template.Library()
 

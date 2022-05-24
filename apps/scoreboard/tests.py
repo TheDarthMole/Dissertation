@@ -1,8 +1,10 @@
-from django.test import TestCase,  Client
+import http.client
+
 from django.contrib.auth import get_user_model
+from django.test import TestCase, Client
+
 from apps.containers.models import Image, CompletedImage
 from apps.learn.models import ExploitType, Lesson
-import http.client
 
 
 class ScoreboardTest(TestCase):
@@ -78,5 +80,3 @@ class ScoreboardTest(TestCase):
                        completed=True).save()
         data = self.client.get("/scoreboard")
         self.assertContains(data, "100%</span>")
-
-

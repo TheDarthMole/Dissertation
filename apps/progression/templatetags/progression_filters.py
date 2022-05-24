@@ -1,5 +1,7 @@
 from django import template
+
 from apps.progression.models import Progression
+
 register = template.Library()
 
 

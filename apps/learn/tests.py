@@ -1,9 +1,10 @@
-from django.contrib.auth import get_user_model
-from django.test import TestCase
-from django.test import Client
-from apps.learn.models import Lesson, ExploitType, Difficulty
-from apps.containers.models import Container, Image
 import http.client
+
+from django.contrib.auth import get_user_model
+from django.test import Client
+from django.test import TestCase
+
+from apps.learn.models import Lesson, ExploitType, Difficulty
 
 
 class LearnTestCase(TestCase):

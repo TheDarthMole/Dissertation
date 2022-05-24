@@ -1,9 +1,11 @@
+import datetime
+
 import django
 from django.db import models
+
 import apps.accounts.models as accounts
 # from apps.learn.models import ExploitType, Lesson
 import apps.learn.models as learn
-import datetime
 
 
 def total_images_completed(user, exploit_type):

@@ -1,10 +1,12 @@
+import base64
+import http.client
+
 from django.contrib.auth import get_user_model
-from django.test import TestCase
 from django.test import Client
+from django.test import TestCase
+
 from apps.containers.models import Container, Image
 from apps.learn.models import ExploitType
-import http.client
-import base64
 
 # Constants
 code = open("docker_files/Dockerfiles/Java/LFI/FileReader/src/main/java/FileReader.java").read()
@@ -102,5 +104,3 @@ class ContainerTestCase(TestCase):
         self.challenge_test(self.test_challenge, http.HTTPStatus.FOUND, code_no_compile,
                             "/challenge/",
                             "Your code failed to compile!")
-
-

@@ -1,9 +1,11 @@
-from django.test import TestCase
+import http.client
+
 from django.contrib.auth import get_user_model
 from django.test import Client
+from django.test import TestCase
+
 from apps.containers.models import Image, CompletedImage
 from apps.learn.models import ExploitType, Lesson, CompletedLesson
-import http.client
 
 
 class ProgressionTest(TestCase):

@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('learn', '0014_alter_file_owner_alter_image_owner_alter_text_owner_and_more'),
     ]

@@ -1,6 +1,7 @@
 from django.db import models
-from apps.learn.models import ExploitType, Lesson, CompletedLesson
+
 from apps.containers.models import Image, CompletedImage, total_images_completed
+from apps.learn.models import ExploitType, Lesson, CompletedLesson
 
 
 class Progression(models.Model):
