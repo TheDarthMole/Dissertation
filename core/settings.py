@@ -22,6 +22,14 @@ DEBUG = config('DEBUG', default=True, cast=bool)
 # load production server from .env
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', config('SERVER', default='127.0.0.1')]
 
+# CORS
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:8000",
+    "http://localhost:85",
+    "http://127.0.0.1:8000",
+    "http://127.0.0.1:85",
+]
+
 # Application definition
 
 INSTALLED_APPS = [
