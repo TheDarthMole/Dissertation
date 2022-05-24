@@ -66,14 +66,19 @@ class ScoreboardTest(TestCase):
         self.assertEqual(self.user1.points, self.test_challenge.point_reward)
 
     def test_total_progress(self):
-        CompletedImage(user=self.user1,
-                       image=self.test_challenge,
-                       completed=True).save()
         data = self.client.get("/scoreboard")
-        self.assertContains(data, "50%")
+        self.assertContains(data, "0%</span>")
 
         CompletedImage(user=self.user1,
                        image=self.test_challenge,
                        completed=True).save()
         data = self.client.get("/scoreboard")
-        self.assertContains(data, "100%")
+        self.assertContains(data, "50%</span>")
+
+        CompletedImage(user=self.user1,
+                       image=self.test_challenge,
+                       completed=True).save()
+        data = self.client.get("/scoreboard")
+        self.assertContains(data, "100%</span>")
+
+
