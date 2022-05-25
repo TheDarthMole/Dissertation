@@ -26,6 +26,9 @@ $ python manage.py makemigrations
 $ python manage.py migrate
 $ # Create an admin account, if not already created
 $ python manage.py createsuperuser
+$ 
+$ # Create the Docker images for the challenges
+$ sudo docker-compose -f ./docker_files/docker-compose.yml build 
 $
 $ # Start the application (development mode)
 $ python manage.py runserver # default port 8000
@@ -111,6 +114,7 @@ The application can be easily executed in a docker container. The steps:
 > Start the app in Docker
 
 ```bash
+$ sudo docker-compose -f ./docker_files/docker-compose.yml build 
 $ sudo docker-compose up --build -d
 ```
 
