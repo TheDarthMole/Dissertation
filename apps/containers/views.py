@@ -1,3 +1,7 @@
+"""
+ * Copyright (C) Nicholas Ruffles - All rights reserved
+ * Written by Nicholas Ruffles (Nicholas.Ruffles@protonmail.com)
+"""
 import base64
 import json
 import random

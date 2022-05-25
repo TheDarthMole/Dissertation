@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 """
-Copyright (c) 2019 - present AppSeed.us
+ * Copyright (C) Nicholas Ruffles - All rights reserved
+ * Written by Nicholas Ruffles (Nicholas.Ruffles@protonmail.com)
 """
 
 from django.apps import AppConfig

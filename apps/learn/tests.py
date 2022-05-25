@@ -1,3 +1,7 @@
+"""
+ * Copyright (C) Nicholas Ruffles - All rights reserved
+ * Written by Nicholas Ruffles (Nicholas.Ruffles@protonmail.com)
+"""
 import http.client
 
 from django.contrib.auth import get_user_model

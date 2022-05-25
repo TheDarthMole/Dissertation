@@ -1,3 +1,7 @@
+"""
+ * Copyright (C) Nicholas Ruffles - All rights reserved
+ * Written by Nicholas Ruffles (Nicholas.Ruffles@protonmail.com)
+"""
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect

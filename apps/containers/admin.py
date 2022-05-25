@@ -1,3 +1,7 @@
+"""
+ * Copyright (C) Nicholas Ruffles - All rights reserved
+ * Written by Nicholas Ruffles (Nicholas.Ruffles@protonmail.com)
+"""
 from django.contrib import admin
 
 from .models import Container, Image, CompletedImage

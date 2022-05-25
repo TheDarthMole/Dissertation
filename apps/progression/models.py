@@ -1,3 +1,7 @@
+"""
+ * Copyright (C) Nicholas Ruffles - All rights reserved
+ * Written by Nicholas Ruffles (Nicholas.Ruffles@protonmail.com)
+"""
 from django.db import models
 
 from apps.containers.models import Image, CompletedImage, total_images_completed

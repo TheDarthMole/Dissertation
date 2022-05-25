@@ -1,4 +1,7 @@
-# accounts/forms.py
+"""
+ * Copyright (C) Nicholas Ruffles - All rights reserved
+ * Written by Nicholas Ruffles (Nicholas.Ruffles@protonmail.com)
+"""
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
 from .models import CustomUser
