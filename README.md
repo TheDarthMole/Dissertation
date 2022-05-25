@@ -5,8 +5,8 @@
 
 ```bash
 $ # Virtualenv modules installation (Unix based systems)
-$ virtualenv env
-$ source env/bin/activate
+$ python3 -m venv venv
+$ source ./env/bin/activate
 $
 $ # Virtualenv modules installation (Windows based systems)
 $ # virtualenv env
